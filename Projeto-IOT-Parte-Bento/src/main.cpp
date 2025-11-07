@@ -8,6 +8,13 @@ Adafruit_CCS811 sensorCCS;
 float eCO2 = 0.0; 
 float TVOC = 0.0;
 
+/*
+
+
+TODO: o sensor particular (DSM 501A) não possui biblioteca, então terá que ser usado de maneira "crua"
+
+
+*/
 
 void setup() 
 {
@@ -38,6 +45,7 @@ void setup()
   // aumenta amostragem dos sensores (1X, 2X, 4X, 8X, 16X ou NONE) 
   sensorBME.setTemperatureOversampling(BME680_OS_8X); 
   sensorBME.setHumidityOversampling(BME680_OS_2X); 
+  sensorBME.setGasHeater(320, 150); // Adiciona aquecimento para o sensor de gás
 
   // Calibrando CCS
   float temp = sensorCCS.calculateTemperature();
@@ -61,5 +69,5 @@ void loop()
   float umidade = sensorBME.humidity;
   Serial.printf("temperatura: %.2f, umildade: %.2f, CO2: %.0f, TVOC: %.0f\n\n", temperatura, umidade, eCO2, TVOC);
   
-  delay(2000);
+  delay(10000);
 }
