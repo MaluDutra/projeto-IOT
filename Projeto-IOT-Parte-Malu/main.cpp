@@ -136,11 +136,11 @@ void setup()
 }
 
 unsigned int instanteAnterior = 0;
-
+bool ligado = false;
 void loop()
 {
   unsigned long instanteAtual = millis();
-  if (instanteAtual > instanteAnterior + 20000)
+  if (instanteAtual > instanteAnterior + 5000)
   {
     Serial.println("+20 segundo");
 
@@ -148,10 +148,24 @@ void loop()
     imprimeEstadoDoAr(estadoDoAr);
 
     ACControle comandoDoAr;
-    comandoDoAr.tipo = comando::Temperature;
-    float minTemp = 17.0f;
-    float maxTemp = 25.0f;
-    comandoDoAr.instrucao.temperatura = minTemp + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (maxTemp - minTemp)));
+    // comandoDoAr.tipo = comando::Temperature;
+    // float minTemp = 17.0f;
+    // float maxTemp = 25.0f;
+    // comandoDoAr.instrucao.temperatura = minTemp + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (maxTemp - minTemp)));
+    comandoDoAr.tipo = comando::Power;
+    // comandoDoAr.instrucao.ligar = false;
+    // envia_comando(&comandoDoAr);
+
+    if (ligado)
+    {
+      Serial.println("Vai desligar!!");
+      comandoDoAr.instrucao.ligar = false;
+    }
+    else
+    {
+      Serial.println("Vai ligar!!");
+      comandoDoAr.instrucao.ligar = true;
+    }
     envia_comando(&comandoDoAr);
 
     instanteAnterior = instanteAtual;
