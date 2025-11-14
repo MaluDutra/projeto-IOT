@@ -1,0 +1,999 @@
+[
+    {
+        "id": "66230dee1646d50c",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5d7e6dd672ad1557",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "navigationStyle": "default",
+        "titleBarStyle": "default"
+    },
+    {
+        "id": "347adb01a23fd639",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "da81ff3a439b078c",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "5d7e6dd672ad1557",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "347adb01a23fd639",
+        "order": 3,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "1251550e75985b59",
+        "type": "postgreSQLConfig",
+        "name": "PostgreSQL",
+        "host": "postgresql.janks.dev.br",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "projeto_b",
+        "databaseFieldType": "str",
+        "ssl": "true",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "iot",
+        "userFieldType": "str",
+        "password": "pepcon-garton",
+        "passwordFieldType": "str"
+    },
+    {
+        "id": "fa7923ade7c363e8",
+        "type": "mqtt-broker",
+        "name": "MQTT",
+        "broker": "mqtt.janks.dev.br",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "5",
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1aecaee9374aef66",
+        "type": "telegram bot",
+        "botname": "eng4051_iotBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "31fb52e805519202",
+        "type": "ui-page",
+        "name": "Page 2",
+        "ui": "5d7e6dd672ad1557",
+        "path": "/page2",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "347adb01a23fd639",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "800a569147ca204f",
+        "type": "ui-group",
+        "name": "Group Name",
+        "page": "da81ff3a439b078c",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "39573526658f1c3a",
+        "type": "ui-group",
+        "name": "My Group",
+        "page": "31fb52e805519202",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "bff878580680ab88",
+        "type": "ui-page",
+        "name": "Desafio",
+        "ui": "5d7e6dd672ad1557",
+        "path": "/page3",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "347adb01a23fd639",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "71b81b1ccf0cbc5b",
+        "type": "ui-group",
+        "name": "Group Name",
+        "page": "bff878580680ab88",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "e447dca1180b3acb",
+        "type": "telegram bot",
+        "botname": "eng4051_iotBot",
+        "usernames": "",
+        "chatids": "7198225613",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "14437288f13c9ae3",
+        "type": "telegram bot",
+        "botname": "bot_arcondicionado",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "5c4d6d6fcd45bb0e",
+        "type": "telegram receiver",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "bot": "14437288f13c9ae3",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 110,
+        "y": 320,
+        "wires": [
+            [
+                "6fc774a4ef402ff6",
+                "598d8061f337ef23"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "042b6f1a9339af0f",
+        "type": "telegram sender",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "bot": "14437288f13c9ae3",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1450,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6fc774a4ef402ff6",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 140,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "94e7e606a4bbe83b",
+        "type": "change",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.type",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.messageId",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.date",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 600,
+        "y": 860,
+        "wires": [
+            [
+                "f4bad61472305461",
+                "beadc9dc407b2dac"
+            ]
+        ]
+    },
+    {
+        "id": "f4bad61472305461",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "beadc9dc407b2dac",
+        "type": "postgresql",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "query": "SELECT * \nFROM arcondicionado_alunos\nWHERE id_chat = $chatId",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 810,
+        "y": 860,
+        "wires": [
+            [
+                "97a7c92c4e0f0883",
+                "261a8c3e71c4d577"
+            ]
+        ]
+    },
+    {
+        "id": "97a7c92c4e0f0883",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "261a8c3e71c4d577",
+        "type": "switch",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1010,
+        "y": 860,
+        "wires": [
+            [
+                "47b4587f19c2fe78",
+                "96a1ba077166dc83"
+            ],
+            [
+                "99cde38501e0ee43"
+            ]
+        ]
+    },
+    {
+        "id": "99cde38501e0ee43",
+        "type": "template",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Você não está cadastrado! Digite sua matrícula:\",\n    \"chatId\": \"{{queryParameters.chatId}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 1220,
+        "y": 1040,
+        "wires": [
+            [
+                "042b6f1a9339af0f",
+                "8c4e633a7ab1bb4a"
+            ]
+        ]
+    },
+    {
+        "id": "fe57ccf8ee69b14f",
+        "type": "telegram sender",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "bot": "14437288f13c9ae3",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1530,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8096f6d92947a70b",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1500,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "598d8061f337ef23",
+        "type": "switch",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Iniciar votação",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Verificar temperatura atual",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "Temperatura:",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 370,
+        "y": 320,
+        "wires": [
+            [
+                "4485d61d98fbbce4",
+                "af1eb740715c31f3"
+            ],
+            [
+                "20656fe26f0f1506",
+                "53287ea87e2007ea"
+            ],
+            [
+                "d9d4dac647ca594a",
+                "b75a0fd381cd369f"
+            ],
+            [
+                "94e7e606a4bbe83b"
+            ]
+        ]
+    },
+    {
+        "id": "8c4e633a7ab1bb4a",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1420,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "5741dffb3e3be7a8",
+        "type": "comment",
+        "z": "66230dee1646d50c",
+        "name": "realizar cadastro",
+        "info": "realizar cadastro",
+        "x": 1620,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "4485d61d98fbbce4",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "20656fe26f0f1506",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "47b4587f19c2fe78",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload[0].nome",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "c89142b37f0c1239",
+        "type": "comment",
+        "z": "66230dee1646d50c",
+        "name": "pq o nome não aparece?",
+        "info": "",
+        "x": 1250,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "28cb68d3ce7aab36",
+        "type": "comment",
+        "z": "66230dee1646d50c",
+        "name": "se receber matrícula... etc...",
+        "info": "se receber matrícula...\nse receber as votações...",
+        "x": 320,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "1bb1151d6d46f270",
+        "type": "telegram sender",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "bot": "14437288f13c9ae3",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1230,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "96a1ba077166dc83",
+        "type": "template",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Oie, {{object.payload[0].nome}}! O que deseja fazer?\",\n    \"chatId\": \"{{queryParameters.chatId}}\",\n    \"type\": \"message\",\n    \"options\": {\n        \"reply_markup\": {\n            \"keyboard\": [\n                [{\"text\": \"Iniciar votação\"}],\n                [{\"text\": \"Verificar temperatura atual\"}]\n            ]\n        }\n    }\n}",
+        "output": "json",
+        "x": 1300,
+        "y": 860,
+        "wires": [
+            [
+                "fe57ccf8ee69b14f",
+                "8096f6d92947a70b"
+            ]
+        ]
+    },
+    {
+        "id": "c9627fb47dfab125",
+        "type": "template",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Digite a temperatura para a qual deseja alterar. Escreva a temperatura em Celsius e com 'Temperatura:' na frente.\",\n    \"chatId\": \"{{payload.chatId}}\",\n    \"type\": \"message\",\n    \"options\": {\n        \"reply_markup\": {\n            \"remove_keyboard\": true\n        }\n    }\n}",
+        "output": "json",
+        "x": 1020,
+        "y": 140,
+        "wires": [
+            [
+                "1bb1151d6d46f270",
+                "5cb6ccaac686fd17"
+            ]
+        ]
+    },
+    {
+        "id": "5cb6ccaac686fd17",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "e97b0f1f96256d8e",
+        "type": "comment",
+        "z": "66230dee1646d50c",
+        "name": "pegar a temperatura atual da sala do aluno que mandou a mensagem e mostrar para ele",
+        "info": "",
+        "x": 970,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "b75a0fd381cd369f",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "d9d4dac647ca594a",
+        "type": "function",
+        "z": "66230dee1646d50c",
+        "name": "function 1",
+        "func": "var estaIniciandoVotacao = global.get(\"iniciar\");\n\nif (estaIniciandoVotacao)\n{\n    var string = msg.payload.content;\n    node.warn(string);\n    var index = string.indexOf(\":\");\n    string = string.slice(index);\n    \n    node.warn(string);\n    msg.payload = parseInt(string);\n    return msg;\n}\nelse\n{\n    return;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 400,
+        "wires": [
+            [
+                "ae5e15dbc3c9f992",
+                "dacac53b887ca655"
+            ]
+        ]
+    },
+    {
+        "id": "47932592570243a4",
+        "type": "comment",
+        "z": "66230dee1646d50c",
+        "name": "Iniciar votação",
+        "info": "",
+        "x": 830,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "af1eb740715c31f3",
+        "type": "function",
+        "z": "66230dee1646d50c",
+        "name": "function 2",
+        "func": "global.set(\"iniciar\", true);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 140,
+        "wires": [
+            [
+                "c9627fb47dfab125"
+            ]
+        ]
+    },
+    {
+        "id": "d6aca6d1251247c6",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1200,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "83fc5bafe956d76a",
+        "type": "comment",
+        "z": "66230dee1646d50c",
+        "name": "Enviada a temperatura",
+        "info": "",
+        "x": 720,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "881b878cb84149d0",
+        "type": "telegram sender",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "bot": "14437288f13c9ae3",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1590,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea12b728bfd161e6",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1580,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "53287ea87e2007ea",
+        "type": "template",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"A temperatura atual da sala da aula (...) é (...)°C.\",\n    \"chatId\": \"{{payload.chatId}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 1380,
+        "y": 280,
+        "wires": [
+            [
+                "881b878cb84149d0",
+                "ea12b728bfd161e6"
+            ]
+        ]
+    },
+    {
+        "id": "ca3ba0327700732a",
+        "type": "template",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Não há uma votação acontecendo no momento!\",\n    \"chatId\": \"{{payload.chatId}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 1200,
+        "y": 560,
+        "wires": [
+            [
+                "daf76ae1cd45723f"
+            ]
+        ]
+    },
+    {
+        "id": "daf76ae1cd45723f",
+        "type": "telegram sender",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "bot": "14437288f13c9ae3",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1410,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "26e63573862fa70e",
+        "type": "comment",
+        "z": "66230dee1646d50c",
+        "name": "Se enviar \"Temperatura:\" sem votação....",
+        "info": "",
+        "x": 1300,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "8ba581f893fe696c",
+        "type": "comment",
+        "z": "66230dee1646d50c",
+        "name": "Enviou temperatura --> mandar mensagem para os outros",
+        "info": "",
+        "x": 1510,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "ae5e15dbc3c9f992",
+        "type": "switch",
+        "z": "66230dee1646d50c",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1010,
+        "y": 440,
+        "wires": [
+            [
+                "d6aca6d1251247c6"
+            ],
+            [
+                "ca3ba0327700732a"
+            ]
+        ]
+    },
+    {
+        "id": "dacac53b887ca655",
+        "type": "debug",
+        "z": "66230dee1646d50c",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 480,
+        "wires": []
+    }
+]
