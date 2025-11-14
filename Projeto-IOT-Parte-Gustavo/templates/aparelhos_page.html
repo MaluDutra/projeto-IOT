@@ -6,88 +6,45 @@
   <title>Cadastro de Aparelhos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-        body {
-            box-sizing: border-box;
-            font-family: 'Inter', -webkit-system-font, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        
-        .form-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .form-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .form-card:active {
-            transform: translateY(-2px);
-        }
-        
-        .icon-container {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 2rem;
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .announcement-banner {
-            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-            animation: slideIn 0.5s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .quick-stats {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-    </style>
+        :root{ --accent-1: #667eea; --accent-2: #764ba2; }
+        body { box-sizing: border-box; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+        .card { transition: transform .18s ease, box-shadow .18s ease; }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.08); }
+        .form-card { transition: transform .18s ease, box-shadow .18s ease; }
+        .form-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.06); }
+        .icon-gradient { background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); border-radius: 12px; width: 64px; height: 64px; display:flex; align-items:center; justify-content:center; color:white; font-size:1.5rem; }
+  </style>
  </head>
  <body class="min-h-full bg-gray-50">
+    <a href="/" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
   <!-- Main Content -->
-   <main class="max-w-6xl mx-auto px-4 py-12">
-    <!-- Forms Section -->
-    <div class="mb-12">
-     <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Cadastro de Aparelhos</h2>
-     <!-- Forms Grid -->
-     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Student Registration -->
-      <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center" href="/aparelhos/add">
-       <div class="icon-container"><span>❄️</span>
-       </div>
-       <h3 class="text-xl font-semibold text-gray-900 mb-3">Cadastrar novo aparelho</h3>
-       <p class="text-gray-600 mb-4">Cadastre um novo aparelho</p>
-      </a>
-      <!-- Student Display -->
-      <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center" href="/aparelhos/get">
-        <div class="icon-container"><span>🏢</span>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-3">Veja todos os Aparelhos</h3>
-        <p class="text-gray-600 mb-4">Uma página com todos os Aparelhos cadastrados no banco de dados</p>
-      </a>
-     </div>
-    </div>
-   </main>
+     <main class="max-w-6xl mx-auto px-4 py-12">
+        <section class="mb-6">
+            <div class="rounded-lg card p-6 bg-white shadow-sm flex items-center gap-4">
+                <div class="icon-gradient">❄️</div>
+                <div>
+                    <h1 class="text-2xl font-semibold text-slate-800">Cadastro de Aparelhos</h1>
+                    <p class="text-sm text-slate-500">Gerencie aparelhos e sua localização.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center" href="/aparelhos/add">
+             <div class="icon-gradient mx-auto mb-4">📝</div>
+             <h3 class="text-xl font-semibold text-gray-900 mb-2">Cadastrar aparelho</h3>
+             <p class="text-gray-600">Adicione um novo aparelho ao inventário.</p>
+            </a>
+
+            <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center" href="/aparelhos/get">
+             <div class="icon-gradient mx-auto mb-4">🔌</div>
+             <h3 class="text-xl font-semibold text-gray-900 mb-2">Ver Aparelhos</h3>
+             <p class="text-gray-600">Lista de aparelhos cadastrados.</p>
+            </a>
+         </div>
+        </section>
+     </main>
   <script>
         // Default configuration
         const defaultConfig = {
