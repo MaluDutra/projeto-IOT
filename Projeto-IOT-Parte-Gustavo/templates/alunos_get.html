@@ -58,7 +58,7 @@
         </section>
 
         <!-- Table -->
-        <section class="card bg-white rounded-lg p-4 shadow-sm">
+        <section class="bg-white rounded-lg p-4 shadow-sm">
             <div class="table-wrapper">
                 <table class="min-w-full divide-y divide-gray-200 table-zebra">
                     <thead class="bg-gray-50">
@@ -67,6 +67,7 @@
                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data de Nascimento</th>
                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gênero</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chat ID</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-100">
@@ -74,7 +75,13 @@
                             {% for row in dados %}
                                 <tr class="hover:bg-slate-50">
                                     {% for el in row %}
+                                        {% if el == row[-1] %}
                                         <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700"><a href="/">editar</a></td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700"><a href="/">remover</a></td>
+                                        {% else %}
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
+                                        {% endif %}
                                     {% endfor %}
                                 </tr>
                             {% endfor %}
