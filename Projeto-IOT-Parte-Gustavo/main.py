@@ -24,6 +24,62 @@ def home():
 def alunos():
     return render_template('./alunos_page.html')
 
+@app.route('/alunos/delete', methods=['POST'])
+def alunos_delete_post():
+    cur = conn.cursor()
+    matricula = request.form["matricula"]
+    try:
+        cur.execute('DELETE FROM arcondicionado_alunos WHERE matricula = %s;', (matricula,))
+    except Exception as e:
+        print(str(e))
+        conn.commit()
+        cur.close()
+        flash("Erro ao remover aluno", 'error')
+        return redirect("/")
+    # Make the changes to the database persistent
+    conn.commit()
+    # Close cursor and communication with the database
+    cur.close()
+    flash(f'Aluno removido com sucesso', 'success')
+    return redirect("/")
+
+@app.route('/alunos/edit2', methods=['GET'])
+def alunos_edit2_get():
+    cur = conn.cursor()
+    matricula = request.args.get("matricula")
+    cur.execute('SELECT * FROM arcondicionado_alunos WHERE matricula = %s;', (matricula,))
+    aluno = cur.fetchone()
+    print(aluno)
+    conn.commit()
+    cur.close()
+    if aluno:
+        return render_template('./alunos_edit2.html', aluno=aluno)
+    else:
+        flash("Aluno não encontrado", 'error')
+        return redirect("/")
+    
+@app.route('/alunos/edit2', methods=['POST'])
+def alunos_edit2_post():
+    cur = conn.cursor()
+    matricula = request.form["matricula"]
+    nome = request.form["nome"]
+    data = request.form["data_nascimento"]
+    genero = request.form["genero"]
+    try:
+        cur.execute('UPDATE arcondicionado_alunos SET nome = %s, data_nascimento = %s, genero = %s WHERE matricula = %s;', (nome, data, genero, matricula))
+    except Exception as e:
+        print(str(e))
+        conn.commit()
+        cur.close()
+        flash("Erro ao editar aluno", 'error')
+        return redirect("/")
+    # Make the changes to the database persistent
+    conn.commit()
+    # Close cursor and communication with the database
+    cur.close()
+    flash(f'Aluno editado com sucesso', 'success')
+    return redirect("/")
+
 @app.route('/alunos/add', methods=['GET'])
 def alunos_add_get():
     return render_template('./alunos_add.html')

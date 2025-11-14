@@ -77,8 +77,18 @@
                                     {% for el in row %}
                                         {% if el == row[-1] %}
                                         <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
-                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700"><a href="/">editar</a></td>
-                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700"><a href="/">remover</a></td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">
+                                            <form method="GET" action="/alunos/edit2">
+                                                <input type="hidden" name="matricula" value="{{ row[0] }}">
+                                                <button type="submit">editar</button>
+                                            </form>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">
+                                            <form method="POST" action="/alunos/delete">
+                                                <input type="hidden" name="matricula" value="{{ row[0] }}">
+                                                <button type="submit">remover</button>
+                                            </form>
+                                        </td>
                                         {% else %}
                                         <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
                                         {% endif %}
