@@ -165,9 +165,13 @@
       </div>
       <div class="p-6">
        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="form-field"><label for="codigo">Código <span class="required">*</span></label> <input type="text" id="codigo" name="codigo" required>
+        <div class="form-field"><label for="codigo">Código <span class="required">*</span></label> <input type="number" step="1" pattern="\d+" id="codigo" onchange="this.value = parseInt(this.value);" name="codigo" required>
         </div>
-        <div class="form-field"><label for="sala">Sala <span class="required">*</span></label> <input type="text" id="sala" name="sala" required>
+        <div class="form-field"><label for="sala">Sala <span class="required">*</span></label> <select id="sala-option" name="sala-option" required> <option value="">Selecione uma turma</option>
+            {% for sala in salas %}
+                <option value="{{ sala[0] }}">{{ sala[0] }}</option>
+            {% endfor %}
+        </select>
         </div>
        </div>
       </div>

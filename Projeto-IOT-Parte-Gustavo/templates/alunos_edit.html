@@ -166,11 +166,23 @@
       </div>
       <div class="p-6">
        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="form-field"><label for="matricula">Matrícula do Aluno <span class="required">*</span></label> <input type="text" id="matricula" name="matricula" required>
+        <div class="form-field"><label for="matricula">Matrícula do Aluno <span class="required">*</span></label> <select id="matricula-option" name="matricula-option" required> <option value="">Selecione um aluno</option>
+            {% for matricula in matriculas %}
+                <option value="{{ matricula[0] }}">{{ matricula[0] }}</option>
+            {% endfor %}
+        </select>
         </div>
-        <div class="form-field"><label for="aula">Código da Aula <span class="required">*</span></label> <input type="text" id="aula" name="aula" required>
+        <div class="form-field"><label for="aula">Código da Aula <span class="required">*</span></label> <select id="aula-option" name="aula-option" required> <option value="">Selecione uma aula</option>
+            {% for aula, turma in aulas %}
+                <option value="{{ aula }}">{{ aula }}</option>
+            {% endfor %}
+        </select>
         </div>
-        <div class="form-field"><label for="turma">Turma <span class="required">*</span></label> <input type="text" id="turma" name="turma" required>
+        <div class="form-field"><label for="turma">Turma <span class="required">*</span></label> <select id="turma-option" name="turma-option" required> <option value="">Selecione uma turma</option>
+            {% for aula, turma in aulas %}
+                <option value="{{ turma }}" data-aula="{{ aula }}">{{ turma }}</option>
+            {% endfor %}
+        </select>
         </div>
        </div>
       </div>
@@ -209,5 +221,19 @@
         // Initialize progress
         updateProgress();
     });
+
+    document.getElementById("aula-option").addEventListener("change", function () {
+    const selectedAula = this.value;
+    const turmaSelect = document.getElementById("turma-option");
+    
+    // Reset turma dropdown
+    turmaSelect.value = "";
+
+    // Show/hide turmas
+    for (const option of turmaSelect.options) {
+        if (!option.dataset.aula) continue;  // skip the placeholder
+        option.hidden = option.dataset.aula !== selectedAula;
+    }
+});
   </script>
 </html>

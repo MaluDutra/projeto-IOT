@@ -166,11 +166,15 @@
       </div>
       <div class="p-6">
        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="form-field"><label for="aula">Aula <span class="required">*</span></label> <input type="text" id="aula" name="aula" required>
+        <div class="form-field"><label for="aula">Aula <span class="required">*</span></label> <select id="aula-option" name="aula-option" required> <option value="">Selecione uma aula</option>
+            {% for aula in aulas %}
+                <option value="{{ aula[0] }}">{{ aula[0] }}</option>
+            {% endfor %}
+        </select>
         </div>
         <div class="form-field"><label for="turma">Turma <span class="required">*</span></label> <input type="text" id="turma" name="turma" required>
         </div>
-        <div class="form-field"><label for="dia">Dia</label> <select id="dia" name="dia"> <option value="">Selecione um dia</option> <option value="Segunda">Segunda</option> <option value="Terça">Terça</option> <option value="Quarta">Quarta</option> <option value="Quinta">Quinta</option> <option value="Sexta">Sexta</option> </select>
+        <div class="form-field"><label for="dia">Dia <span class="required">*</span></label> <select id="dia" name="dia" required> <option value="">Selecione um dia</option> <option value="Segunda">Segunda</option> <option value="Terça">Terça</option> <option value="Quarta">Quarta</option> <option value="Quinta">Quinta</option> <option value="Sexta">Sexta</option> </select>
         </div>
        </div>
       </div>
