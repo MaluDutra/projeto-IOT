@@ -35,38 +35,37 @@ def alunos_delete_post():
         conn.commit()
         cur.close()
         flash("Erro ao remover aluno", 'error')
-        return redirect("/")
+        return redirect("/alunos/get")
     # Make the changes to the database persistent
     conn.commit()
     # Close cursor and communication with the database
     cur.close()
     flash(f'Aluno removido com sucesso', 'success')
-    return redirect("/")
+    return redirect("/alunos/get")
 
 @app.route('/alunos/edit2', methods=['GET', 'POST'])
 def alunos_edit2():
     cur = conn.cursor()
     if request.method == 'POST':
         # Check if it's the form to get the edit page or to update the student
-        if 'nome' in request.form:  # This is the update form
-            matricula = request.form["matricula"]
-            nome = request.form["nome"]
-            data = request.form["data_nascimento"]
-            genero = request.form["genero"]
-            try:
-                cur.execute('UPDATE arcondicionado_alunos SET nome = %s, data_nascimento = %s, genero = %s WHERE matricula = %s;', (nome, data, genero, matricula))
-            except Exception as e:
-                print(str(e))
-                conn.commit()
-                cur.close()
-                flash("Erro ao editar aluno", 'error')
-                return redirect("/alunos/get")
+        print(request.form)
+        matricula = request.form["matricula"]
+        nome = request.form["nome"]
+        data = request.form["data_nascimento"]
+        genero = request.form["genero"]
+        id_chat = request.form["id_chat"]
+        try:
+            cur.execute('UPDATE arcondicionado_alunos SET nome = %s, data_nascimento = %s, genero = %s, id_chat = %s WHERE matricula = %s;', (nome, data, genero, id_chat, matricula))
+        except Exception as e:
+            print(str(e))
             conn.commit()
             cur.close()
-            flash(f'Aluno editado com sucesso', 'success')
+            flash("Erro ao editar aluno", 'error')
             return redirect("/alunos/get")
-        else:  # This is the form to get student data for editing
-            matricula = request.form["matricula"]
+        conn.commit()
+        cur.close()
+        flash(f'Aluno editado com sucesso', 'success')
+        return redirect("/alunos/get")
     else:
         matricula = request.args.get("matricula")
     
@@ -79,6 +78,7 @@ def alunos_edit2():
     else:
         flash("Aluno não encontrado", 'error')
         return redirect("/alunos/get")
+    
 @app.route('/alunos/add', methods=['GET'])
 def alunos_add_get():
     return render_template('./alunos_add.html')
@@ -217,37 +217,25 @@ def aulas_get():
 
     return render_template('./aulas_get.html', dados=data)
 
-@app.route('/aulas/get2')
-def aulas_get2():
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM arcondicionado_aulas_horas;')
-    data = cur.fetchall()
-    conn.commit()
-
-    return render_template('./turmas_get.html', dados=data)
-
 @app.route('/aulas/edit2', methods=['GET', 'POST'])
 def aulas_edit2():
     cur = conn.cursor()
-    if request.method == 'POST':
-        # Check if it's the form to get the edit page or to update the aula
-        if 'nome' in request.form:  # This is the update form
-            codigo = request.form["codigo"]
-            nome = request.form["nome"]
-            try:
-                cur.execute('UPDATE arcondicionado_aulas SET nome = %s WHERE codigo = %s;', (nome, codigo))
-            except Exception as e:
-                print(str(e))
-                conn.commit()
-                cur.close()
-                flash("Erro ao editar aula", 'error')
-                return redirect("/aulas/get")
+    # Check if it's the form to get the edit page or to update the aula
+    if 'nome' in request.form:  # This is the update form
+        codigo = request.form["codigo"]
+        nome = request.form["nome"]
+        try:
+            cur.execute('UPDATE arcondicionado_aulas SET nome = %s WHERE codigo = %s;', (nome, codigo))
+        except Exception as e:
+            print(str(e))
             conn.commit()
             cur.close()
-            flash(f'Aula editada com sucesso', 'success')
+            flash("Erro ao editar aula", 'error')
             return redirect("/aulas/get")
-        else:  # This is the form to get aula data for editing
-            codigo = request.form["codigo"]
+        conn.commit()
+        cur.close()
+        flash(f'Aula editada com sucesso', 'success')
+        return redirect("/aulas/get")
     else:
         codigo = request.args.get("codigo")
     
@@ -277,6 +265,70 @@ def aulas_delete():
     cur.close()
     flash(f'Aula removida com sucesso', 'success')
     return redirect("/aulas/get")
+
+@app.route('/aulas/get2')
+def aulas_get2():
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM arcondicionado_aulas_horas;')
+    data = cur.fetchall()
+    conn.commit()
+
+    return render_template('./turmas_get.html', dados=data)
+
+@app.route('/turmas/edit2', methods=['GET', 'POST'])
+def turmas_edit2():
+    cur = conn.cursor()
+    # Check if it's the form to get the edit page or to update the turma
+    if 'dia' in request.form:  # This is the update form
+        aula = request.form["aula"]
+        turma = request.form["turma"]
+        dia = request.form["dia"]
+        try:
+            cur.execute('UPDATE arcondicionado_aulas_horas SET dia = %s WHERE aula = %s AND turma = %s;', (dia, aula, turma))
+        except Exception as e:
+            print(str(e))
+            conn.commit()
+            cur.close()
+            flash("Erro ao editar turma", 'error')
+            return redirect("/aulas/get2")
+        conn.commit()
+        cur.close()
+        flash(f'Turma editada com sucesso', 'success')
+        return redirect("/aulas/get2")
+    else:
+        aula = request.args.get("aula")
+        turma = request.args.get("turma")
+        dia = request.args.get("dia")
+    
+    cur.execute('SELECT * FROM arcondicionado_aulas_horas WHERE aula = %s AND turma = %s AND dia = %s;', (aula, turma, dia))
+    turma_data = cur.fetchone()
+    
+    conn.commit()
+    cur.close()
+    if turma_data:
+        return render_template('./turmas_edit2.html', turma=turma_data)
+    else:
+        flash("Turma não encontrada", 'error')
+        return redirect("/aulas/get2")
+
+@app.route('/turmas/delete', methods=['POST'])
+def turmas_delete():
+    cur = conn.cursor()
+    aula = request.form["aula"]
+    turma = request.form["turma"]
+    dia = request.form["dia"]
+    try:
+        cur.execute('DELETE FROM arcondicionado_aulas_horas WHERE aula = %s AND turma = %s AND dia = %s;', (aula, turma, dia))
+    except Exception as e:
+        print(str(e))
+        conn.commit()
+        cur.close()
+        flash("Erro ao remover turma", 'error')
+        return redirect("/aulas/get2")
+    conn.commit()
+    cur.close()
+    flash(f'Turma removida com sucesso', 'success')
+    return redirect("/aulas/get2")
 
 @app.route('/salas')
 def salas():
@@ -317,25 +369,22 @@ def salas_get():
 @app.route('/salas/edit2', methods=['GET', 'POST'])
 def salas_edit2():
     cur = conn.cursor()
-    if request.method == 'POST':
-        # Check if it's the form to get the edit page or to update the sala
-        if 'local' in request.form:  # This is the update form
-            codigo = request.form["codigo"]
-            local = request.form["local"]
-            try:
-                cur.execute('UPDATE arcondicionado_salas SET local = %s WHERE codigo = %s;', (local, codigo))
-            except Exception as e:
-                print(str(e))
-                conn.commit()
-                cur.close()
-                flash("Erro ao editar sala", 'error')
-                return redirect("/salas/get")
+    # Check if it's the form to get the edit page or to update the sala
+    if 'local' in request.form:  # This is the update form
+        codigo = request.form["codigo"]
+        local = request.form["local"]
+        try:
+            cur.execute('UPDATE arcondicionado_salas SET local = %s WHERE codigo = %s;', (local, codigo))
+        except Exception as e:
+            print(str(e))
             conn.commit()
             cur.close()
-            flash(f'Sala editada com sucesso', 'success')
+            flash("Erro ao editar sala", 'error')
             return redirect("/salas/get")
-        else:  # This is the form to get sala data for editing
-            codigo = request.form["codigo"]
+        conn.commit()
+        cur.close()
+        flash(f'Sala editada com sucesso', 'success')
+        return redirect("/salas/get")
     else:
         codigo = request.args.get("codigo")
     
@@ -387,7 +436,7 @@ def aparelhos_add_post():
     codigo = request.form["codigo"]
     sala = request.form["sala-option"]
     try:
-        cur.execute('INSERT INTO arcondicionado_aparelhos (codigo, sala, qualidade) VALUES (%s, %s, %s);', (codigo, sala, "bom"))
+        cur.execute('INSERT INTO arcondicionado_aparelhos (codigo, sala, qualidade) VALUES (%s, %s, %s);', (codigo, sala, "Bom"))
     except:
         conn.commit()
         cur.close()
@@ -409,111 +458,36 @@ def aparelhos_get():
 
     return render_template('./aparelhos_get.html', dados=data)
 
-@app.route('/turmas/edit2', methods=['GET', 'POST'])
-def turmas_edit2():
-    cur = conn.cursor()
-    if request.method == 'POST':
-        # Check if it's the form to get the edit page or to update the turma
-        if 'turma' in request.form and 'dia' in request.form and len(request.form) > 3:  # This is the update form
-            old_aula = request.form["old_aula"]
-            old_turma = request.form["old_turma"] 
-            old_dia = request.form["old_dia"]
-            aula = request.form["aula"]
-            turma = request.form["turma"]
-            dia = request.form["dia"]
-            try:
-                cur.execute('UPDATE arcondicionado_aulas_horas SET aula = %s, turma = %s, dia = %s WHERE aula = %s AND turma = %s AND dia = %s;', 
-                           (aula, turma, dia, old_aula, old_turma, old_dia))
-            except Exception as e:
-                print(str(e))
-                conn.commit()
-                cur.close()
-                flash("Erro ao editar turma", 'error')
-                return redirect("/aulas/get2")
-            conn.commit()
-            cur.close()
-            flash(f'Turma editada com sucesso', 'success')
-            return redirect("/aulas/get2")
-        else:  # This is the form to get turma data for editing
-            aula = request.form["aula"]
-            turma = request.form["turma"]
-            dia = request.form["dia"]
-    else:
-        aula = request.args.get("aula")
-        turma = request.args.get("turma")
-        dia = request.args.get("dia")
-    
-    cur.execute('SELECT * FROM arcondicionado_aulas_horas WHERE aula = %s AND turma = %s AND dia = %s;', (aula, turma, dia))
-    turma_data = cur.fetchone()
-    
-    # Get aulas for the dropdown
-    cur.execute('SELECT codigo FROM arcondicionado_aulas;')
-    aulas = cur.fetchall()
-    
-    conn.commit()
-    cur.close()
-    if turma_data:
-        return render_template('./turmas_edit2.html', turma=turma_data, aulas=aulas)
-    else:
-        flash("Turma não encontrada", 'error')
-        return redirect("/aulas/get2")
-
-@app.route('/turmas/delete', methods=['POST'])
-def turmas_delete():
-    cur = conn.cursor()
-    aula = request.form["aula"]
-    turma = request.form["turma"]
-    dia = request.form["dia"]
-    try:
-        cur.execute('DELETE FROM arcondicionado_aulas_horas WHERE aula = %s AND turma = %s AND dia = %s;', (aula, turma, dia))
-    except Exception as e:
-        print(str(e))
-        conn.commit()
-        cur.close()
-        flash("Erro ao remover turma", 'error')
-        return redirect("/aulas/get2")
-    conn.commit()
-    cur.close()
-    flash(f'Turma removida com sucesso', 'success')
-    return redirect("/aulas/get2")
-
 @app.route('/aparelhos/edit2', methods=['GET', 'POST'])
 def aparelhos_edit2():
     cur = conn.cursor()
-    if request.method == 'POST':
-        # Check if it's the form to get the edit page or to update the device
-        if 'sala' in request.form and 'qualidade' in request.form:  # This is the update form
-            codigo = request.form["codigo"]
-            sala = request.form["sala"]
-            qualidade = request.form["qualidade"]
-            try:
-                cur.execute('UPDATE arcondicionado_aparelhos SET sala = %s, qualidade = %s WHERE codigo = %s;', (sala, qualidade, codigo))
-            except Exception as e:
-                print(str(e))
-                conn.commit()
-                cur.close()
-                flash("Erro ao editar aparelho", 'error')
-                return redirect("/aparelhos/get")
+    # Check if it's the form to get the edit page or to update the device
+    if 'sala' in request.form and 'qualidade' in request.form:  # This is the update form
+        codigo = request.form["codigo"]
+        sala = request.form["sala"]
+        qualidade = request.form["qualidade"]
+        try:
+            cur.execute('UPDATE arcondicionado_aparelhos SET sala = %s, qualidade = %s WHERE codigo = %s;', (sala, qualidade, codigo))
+        except Exception as e:
+            print(str(e))
             conn.commit()
             cur.close()
-            flash(f'Aparelho editado com sucesso', 'success')
+            flash("Erro ao editar aparelho", 'error')
             return redirect("/aparelhos/get")
-        else:  # This is the form to get device data for editing
-            codigo = request.form["codigo"]
+        conn.commit()
+        cur.close()
+        flash(f'Aparelho editado com sucesso', 'success')
+        return redirect("/aparelhos/get")
     else:
         codigo = request.args.get("codigo")
     
     cur.execute('SELECT * FROM arcondicionado_aparelhos WHERE codigo = %s;', (codigo,))
     aparelho = cur.fetchone()
     
-    # Get salas for the dropdown
-    cur.execute('SELECT codigo FROM arcondicionado_salas;')
-    salas = cur.fetchall()
-    
     conn.commit()
     cur.close()
     if aparelho:
-        return render_template('./aparelhos_edit2.html', aparelho=aparelho, salas=salas)
+        return render_template('./aparelhos_edit2.html', aparelho=aparelho)
     else:
         flash("Aparelho não encontrado", 'error')
         return redirect("/aparelhos/get")

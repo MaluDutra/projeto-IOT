@@ -13,6 +13,40 @@
         .table-zebra tbody tr:nth-child(odd) { background-color: rgba(15, 23, 42, 0.02); }
         .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .icon-gradient { background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); }
+        .alert-danger {
+            background: #ffe5e5;                /* Light, soft red */
+            border-left: 6px solid #e63946;     /* Modern red accent */
+            border-radius: 12px;                /* Rounded corners to match your cards */
+            padding: 16px 20px;
+            margin-bottom: 20px;
+
+            color: #8b0000;                     /* Darker readable red */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);  /* Soft floating card shadow */
+        }
+
+        .alert-success {
+            background: #e5ffe9;                /* Light, soft green */
+            border-left: 6px solid #0f4e18;     /* Modern green accent */
+            border-radius: 12px;                /* Rounded corners to match your cards */
+            padding: 16px 20px;
+            margin-bottom: 20px;
+
+            color: #0f4e18;                     /* Darker readable green */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);  /* Soft floating card shadow */
+        }
+
+        .alert ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .alert li {
+            margin-bottom: 4px;
+        }
+
+        .alert .btn-close {
+            filter: invert(25%); /* Makes the close icon dark red-ish */
+        }
   </style>
  </head>
  <body class="min-h-full bg-gray-50">
@@ -58,10 +92,10 @@
                             {% for row in dados %}
                                 <tr class="hover:bg-slate-50">
                                     {% for el in row %}
-                                        {% if el == row[-1] %}
+                                        {% if loop.last %}
                                         <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
                                         <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">
-                                            <form method="POST" action="/salas/edit2" class="inline mr-2">
+                                            <form method="GET" action="/salas/edit2" class="inline mr-2">
                                                 <input type="hidden" name="codigo" value="{{ row[0] }}">
                                                 <button type="submit" class="text-indigo-600 hover:text-indigo-800">editar</button>
                                             </form>
@@ -85,6 +119,39 @@
                 </table>
             </div>
         </section>
+
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% if errors %}
+        <div class="alert alert-danger alert-dismissible fade show m-10"
+                role="alert">
+            <ul>
+                {%- for msg in errors %}
+                <li>{{ msg }}</li>
+                {% endfor -%}
+            </ul>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% if messages %}
+        <div class="alert alert-success alert-dismissible fade show m-10"
+                role="alert">
+            <ul>
+                {%- for msg in messages %}
+                <li>{{ msg }}</li>
+                {% endfor -%}
+            </ul>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endwith %}
+
      </main>
   <script>
         // Default configuration

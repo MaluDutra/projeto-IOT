@@ -139,7 +139,7 @@
     </style>
  </head>
  <body class="min-h-full bg-gray-50">
-  <a href="/alunos" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
+  <a href="/alunos/get" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
   <div class="min-h-full"><!-- Header -->
    <header class="hero-section">
     <div class="max-w-4xl mx-auto">
@@ -178,6 +178,8 @@
           <option value="Outro" {% if aluno[3] == "Outro" %}selected{% endif %}>Outro</option>
           <option value="Prefiro não dizer" {% if aluno[3] == "Prefiro não dizer" %}selected{% endif %}>Prefiro não dizer</option>
         </select>
+        </div>
+        <div class="form-field"><label for="id_chat">ID do Chat</label> <input type="text" id="id_chat" name="id_chat" value="{{ aluno[4] }}">
         </div>
        </div>
       </div>

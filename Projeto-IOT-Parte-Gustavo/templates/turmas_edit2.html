@@ -139,7 +139,7 @@
     </style>
  </head>
  <body class="min-h-full bg-gray-50">
-  <a href="/aulas" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
+  <a href="/aulas/get2" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
   <div class="min-h-full">
    <header class="hero-section">
     <div class="max-w-4xl mx-auto">
@@ -159,37 +159,24 @@
      </div>
      <h2 class="text-2xl font-bold mb-2">Editado com sucesso!</h2>
     </div>
-    <form id="registration-form" method="POST">
-     <!-- Hidden fields to store original values -->
-     <input type="hidden" name="old_aula" value="{{ turma[0] }}">
-     <input type="hidden" name="old_turma" value="{{ turma[1] }}">
-     <input type="hidden" name="old_dia" value="{{ turma[2] }}">
-     
+    <form id="registration-form" method="POST">     
      <div class="form-section">
       <div class="section-header"><span>📕 Informações da Turma</span>
       </div>
       <div class="p-6">
        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="form-field">
-          <label for="aula">Aula <span class="required">*</span></label> 
-          <select id="aula" name="aula" required>
-            {% for aula in aulas %}
-              <option value="{{ aula[0] }}" {% if turma[0] == aula[0] %}selected{% endif %}>{{ aula[0] }}</option>
-            {% endfor %}
-          </select>
+        <div class="form-field"><label for="aula">Aula <span class="required">*</span></label> <input type="text" id="aula" name="aula" value="{{ turma[0] }}" required readonly>
         </div>
-        <div class="form-field"><label for="turma">Turma <span class="required">*</span></label> <input type="text" id="turma" name="turma" value="{{ turma[1] }}" required>
+        <div class="form-field"><label for="turma">Turma <span class="required">*</span></label> <input type="text" id="turma" name="turma" value="{{ turma[1] }}" required readonly>
         </div>
         <div class="form-field">
           <label for="dia">Dia <span class="required">*</span></label> 
           <select id="dia" name="dia" required>
-            <option value="segunda" {% if turma[2] == "segunda" %}selected{% endif %}>Segunda</option>
-            <option value="terca" {% if turma[2] == "terca" %}selected{% endif %}>Terça</option>
-            <option value="quarta" {% if turma[2] == "quarta" %}selected{% endif %}>Quarta</option>
-            <option value="quinta" {% if turma[2] == "quinta" %}selected{% endif %}>Quinta</option>
-            <option value="sexta" {% if turma[2] == "sexta" %}selected{% endif %}>Sexta</option>
-            <option value="sabado" {% if turma[2] == "sabado" %}selected{% endif %}>Sábado</option>
-            <option value="domingo" {% if turma[2] == "domingo" %}selected{% endif %}>Domingo</option>
+            <option value="Segunda" {% if turma[2] == "Segunda" %}selected{% endif %}>Segunda</option>
+            <option value="Terça" {% if turma[2] == "Terça" %}selected{% endif %}>Terça</option>
+            <option value="Quarta" {% if turma[2] == "Quarta" %}selected{% endif %}>Quarta</option>
+            <option value="Quinta" {% if turma[2] == "Quinta" %}selected{% endif %}>Quinta</option>
+            <option value="Sexta" {% if turma[2] == "Sexta" %}selected{% endif %}>Sexta</option>
           </select>
         </div>
        </div>

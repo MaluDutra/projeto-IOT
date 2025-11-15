@@ -139,7 +139,7 @@
     </style>
  </head>
  <body class="min-h-full bg-gray-50">
-  <a href="/aparelhos" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
+  <a href="/aparelhos/get" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
   <div class="min-h-full">
    <header class="hero-section">
     <div class="max-w-4xl mx-auto">
@@ -167,18 +167,13 @@
        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="form-field"><label for="codigo">Código <span class="required">*</span></label> <input type="number" step="1" pattern="\d+" id="codigo" name="codigo" value="{{ aparelho[0] }}" readonly required>
         </div>
-        <div class="form-field"><label for="sala">Sala <span class="required">*</span></label> 
-          <select id="sala" name="sala" required>
-            {% for sala in salas %}
-              <option value="{{ sala[0] }}" {% if aparelho[1] == sala[0] %}selected{% endif %}>{{ sala[0] }}</option>
-            {% endfor %}
-          </select>
+        <div class="form-field"><label for="sala">Sala <span class="required">*</span></label> <input id="sala" name="sala" value="{{ aparelho[1] }}" readonly required>
         </div>
         <div class="form-field"><label for="qualidade">Qualidade <span class="required">*</span></label> 
           <select id="qualidade" name="qualidade" required>
-            <option value="bom" {% if aparelho[2] == "bom" %}selected{% endif %}>Bom</option>
-            <option value="regular" {% if aparelho[2] == "regular" %}selected{% endif %}>Regular</option>
-            <option value="ruim" {% if aparelho[2] == "ruim" %}selected{% endif %}>Ruim</option>
+            <option value="Bom" {% if aparelho[2] == "Bom" %}selected{% endif %}>Bom</option>
+            <option value="Regular" {% if aparelho[2] == "Regular" %}selected{% endif %}>Regular</option>
+            <option value="Ruim" {% if aparelho[2] == "Ruim" %}selected{% endif %}>Ruim</option>
           </select>
         </div>
        </div>
