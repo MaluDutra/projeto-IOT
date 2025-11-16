@@ -2,6 +2,8 @@
 #include <Adafruit_BME680.h>
 #include <Adafruit_CCS811.h>
 
+#define BUZZZER_PIN  7
+
 Adafruit_BME680 sensorBME;
 Adafruit_CCS811 sensorCCS;
 
@@ -31,10 +33,19 @@ float calc_c_pcs283ml(float lowPulse) {
   return min(c_pcs283ml, 12500.0f);
 }
 
+void apitaBuzzer()
+{
+  analogWrite(BUZZZER_PIN, 32);
+  delay(100);
+  analogWrite(BUZZZER_PIN, 0);
+}
+
 void setup() 
 {
   Serial.begin(115200); delay(500);
   Serial.println("Projeto IOT - Parte Bento");
+
+  pinMode(BUZZZER_PIN, OUTPUT);
 
   if (!sensorBME.begin()) 
   { 
@@ -81,6 +92,7 @@ void loop()
 
   if (instanteAtual > instanteAnterior + sampleTime)
   {
+    digitalWrite(BUZZZER_PIN, HIGH);
     sensorBME.performReading();
   
     if (sensorCCS.available() && !sensorCCS.readData())
@@ -104,5 +116,6 @@ void loop()
     
     Serial.printf("temperatura: %.2f, umildade: %.2f, CO2: %.0f, TVOC: %.0f, low_percent: %f, c_mg3: %f, c_pcs283ml: %f \n\n", temperatura, umidade, eCO2, TVOC, low_percent, c_mgm3, c_pcs283ml);
     instanteAnterior = instanteAtual; 
+    //apitaBuzzer();
   }
 }
