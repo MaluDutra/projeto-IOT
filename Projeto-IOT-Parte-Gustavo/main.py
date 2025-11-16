@@ -150,6 +150,81 @@ def alunos_edit_post():
     flash(f'Aluno matriculado com sucesso', 'success')
     return redirect("/")
 
+@app.route('/alunos/get2')
+def alunos_get2():
+    cur = conn.cursor()
+    cur.execute(
+        """SELECT aa.matricula, a.nome, aa.aula, aa.turma
+        FROM arcondicionado_alunos_aulas aa
+        LEFT JOIN arcondicionado_alunos a ON aa.matricula = a.matricula;"""
+    )
+    data = cur.fetchall()
+    conn.commit()
+
+    return render_template('./alunos_turmas_get.html', dados=data)
+
+@app.route('/alunos/turmas/edit2', methods=['GET', 'POST'])
+def alunos_turmas_edit2():
+    cur = conn.cursor()
+    # Update form
+    print(request.form)
+    if 'aula-option' in request.form and 'turma-option' in request.form and 'orig_aula' in request.form:
+        matricula = request.form['matricula']
+        orig_aula = request.form['orig_aula']
+        orig_turma = request.form['orig_turma']
+        aula = request.form['aula-option']
+        turma = request.form['turma-option']
+        try:
+            cur.execute('UPDATE arcondicionado_alunos_aulas SET aula = %s, turma = %s WHERE matricula = %s AND aula = %s AND turma = %s;', (aula, turma, matricula, orig_aula, orig_turma))
+        except Exception as e:
+            print(str(e))
+            conn.commit()
+            cur.close()
+            flash('Erro ao editar matrícula/turma', 'error')
+            return redirect('/alunos/get2')
+        conn.commit()
+        cur.close()
+        flash('Relação atualizada com sucesso', 'success')
+        return redirect('/alunos/get2')
+    # Load edit page
+    else:
+        matricula = request.args.get('matricula')
+        aula = request.args.get('aula')
+        turma = request.args.get('turma')
+
+    cur.execute('SELECT * FROM arcondicionado_alunos_aulas WHERE matricula = %s AND aula = %s AND turma = %s;', (matricula, aula, turma))
+    rel = cur.fetchone()
+
+    cur.execute('SELECT * FROM arcondicionado_aulas_horas;')
+    aulas_data = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    if rel:
+        return render_template('./alunos_turmas_edit2.html', rel=rel, aulas_data=aulas_data)
+    else:
+        flash('Relação não encontrada', 'error')
+        return redirect('/alunos/get2')
+
+@app.route('/alunos/turmas/delete', methods=['POST'])
+def alunos_turmas_delete():
+    cur = conn.cursor()
+    matricula = request.form['matricula']
+    aula = request.form['aula']
+    turma = request.form['turma']
+    try:
+        cur.execute('DELETE FROM arcondicionado_alunos_aulas WHERE matricula = %s AND aula = %s AND turma = %s;', (matricula, aula, turma))
+    except Exception as e:
+        print(str(e))
+        conn.commit()
+        cur.close()
+        flash('Erro ao remover relação', 'error')
+        return redirect('/alunos/get2')
+    conn.commit()
+    cur.close()
+    flash('Relação removida com sucesso', 'success')
+    return redirect('/alunos/get2')
+
 @app.route('/aulas')
 def aulas():
     return render_template('./aulas_page.html')
