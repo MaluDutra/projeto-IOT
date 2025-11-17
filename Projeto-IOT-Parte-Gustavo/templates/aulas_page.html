@@ -1,24 +1,60 @@
 <!doctype html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro de Aulas</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-        :root{ --accent-1: #667eea; --accent-2: #764ba2; }
-        body { box-sizing: border-box; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
-        .card { transition: transform .18s ease, box-shadow .18s ease; }
-        .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.08); }
-        .form-card { transition: transform .18s ease, box-shadow .18s ease; }
-        .form-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.06); }
-        .icon-gradient { background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); border-radius: 12px; width: 64px; height: 64px; display:flex; align-items:center; justify-content:center; color:white; font-size:1.5rem; }
-  </style>
- </head>
- <body class="min-h-full bg-gray-50">
-    <a href="/" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
-  <!-- Main Content -->
-     <main class="max-w-6xl mx-auto px-4 py-12">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Aulas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+        }
+
+        body {
+            box-sizing: border-box;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        .card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
+        }
+
+        .form-card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.06);
+        }
+
+        .icon-gradient {
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+            border-radius: 12px;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-full bg-gray-50">
+    <a href="/" aria-label="Voltar"
+        class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">←
+        Voltar</a>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12">
         <section class="mb-6">
             <div class="rounded-lg card p-6 bg-white shadow-sm flex items-center gap-4">
                 <div class="icon-gradient">📚</div>
@@ -30,201 +66,37 @@
         </section>
 
         <section class="mb-12">
-         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center" href="/aulas/add">
-             <div class="icon-gradient mx-auto mb-4">📝</div>
-             <h3 class="text-xl font-semibold text-gray-900 mb-2">Cadastrar aula</h3>
-             <p class="text-gray-600">Crie uma nova disciplina ou conteúdo.</p>
-            </a>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aulas/add">
+                    <div class="icon-gradient mx-auto mb-4">📝</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Cadastrar aula</h3>
+                    <p class="text-gray-600">Crie uma nova disciplina ou conteúdo.</p>
+                </a>
 
-            <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center" href="/aulas/get">
-             <div class="icon-gradient mx-auto mb-4">🎓</div>
-             <h3 class="text-xl font-semibold text-gray-900 mb-2">Listar aulas</h3>
-             <p class="text-gray-600">Veja todas as aulas.</p>
-            </a>
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aulas/get">
+                    <div class="icon-gradient mx-auto mb-4">🎓</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Listar aulas</h3>
+                    <p class="text-gray-600">Veja todas as aulas.</p>
+                </a>
 
-            <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center" href="/aulas/edit">
-             <div class="icon-gradient mx-auto mb-4">✏️</div>
-             <h3 class="text-xl font-semibold text-gray-900 mb-2">Adicionar turma</h3>
-             <p class="text-gray-600">Configure horários e turmas para aulas.</p>
-            </a>
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aulas/edit">
+                    <div class="icon-gradient mx-auto mb-4">✏️</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Adicionar turma</h3>
+                    <p class="text-gray-600">Configure horários e turmas para aulas.</p>
+                </a>
 
-            <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center" href="/aulas/get2">
-             <div class="icon-gradient mx-auto mb-4">📕</div>
-             <h3 class="text-xl font-semibold text-gray-900 mb-2">Listar turmas</h3>
-             <p class="text-gray-600">Veja todas as turmas e horários.</p>
-            </a>
-         </div>
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aulas/get2">
+                    <div class="icon-gradient mx-auto mb-4">📕</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Listar turmas</h3>
+                    <p class="text-gray-600">Veja todas as turmas e horários.</p>
+                </a>
+            </div>
         </section>
-     </main>
-  <script>
-        // Default configuration
-        const defaultConfig = {
-            school_name: "Lincoln Elementary School",
-            school_motto: "Excellence in Education",
-            principal_name: "Dr. Sarah Johnson",
-            welcome_message: "Welcome to our school portal. Access forms, submit applications, and stay connected with our school community.",
-            footer_text: "© 2024 Lincoln Elementary School. All rights reserved."
-        };
+    </main>
+</body>
 
-        // Element SDK configuration
-        const elementConfig = {
-            defaultConfig,
-            onConfigChange: async (config) => {
-                document.getElementById('school-name').textContent = config.school_name || defaultConfig.school_name;
-                document.getElementById('school-motto').textContent = config.school_motto || defaultConfig.school_motto;
-                document.getElementById('principal-name').textContent = config.principal_name || defaultConfig.principal_name;
-                document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
-                document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
-            },
-            mapToCapabilities: (config) => ({
-                recolorables: [],
-                borderables: [],
-                fontEditable: undefined,
-                fontSizeable: undefined
-            }),
-            mapToEditPanelValues: (config) => new Map([
-                ["school_name", config.school_name || defaultConfig.school_name],
-                ["school_motto", config.school_motto || defaultConfig.school_motto],
-                ["principal_name", config.principal_name || defaultConfig.principal_name],
-                ["welcome_message", config.welcome_message || defaultConfig.welcome_message],
-                ["footer_text", config.footer_text || defaultConfig.footer_text]
-            ])
-        };
-
-        // Form information
-        const formInfo = {
-            'student-registration': {
-                title: 'Student Registration Form',
-                description: 'This form collects basic information for new student enrollment including personal details, previous school information, and parent/guardian contacts.'
-            },
-            'parent-contact': {
-                title: 'Parent Contact Form',
-                description: 'Update or provide current contact information for parents and guardians including phone numbers, email addresses, and emergency contacts.'
-            },
-            'field-trip': {
-                title: 'Field Trip Permission Form',
-                description: 'Grant permission for your child to participate in upcoming field trips and educational excursions outside of school grounds.'
-            },
-            'lunch-program': {
-                title: 'School Lunch Program Application',
-                description: 'Apply for free or reduced-price school meals based on family income and household size qualifications.'
-            },
-            'after-school': {
-                title: 'After School Activities Registration',
-                description: 'Register your child for sports teams, academic clubs, arts programs, and other extracurricular activities.'
-            },
-            'teacher-feedback': {
-                title: 'Teacher Feedback Form',
-                description: 'Share your thoughts and feedback about your child\'s educational experience, teacher performance, and suggestions for improvement.'
-            },
-            'volunteer': {
-                title: 'Volunteer Application Form',
-                description: 'Apply to become a school volunteer for events, classroom assistance, field trip chaperoning, and other community activities.'
-            },
-            'transportation': {
-                title: 'Transportation Request Form',
-                description: 'Request bus transportation services or update pickup/drop-off locations for your child\'s daily commute to school.'
-            },
-            'emergency-contact': {
-                title: 'Emergency Contact Update Form',
-                description: 'Update emergency contact information, medical conditions, allergies, and other critical safety information for your child.'
-            }
-        };
-
-        // Quick links information
-        const linkInfo = {
-            'calendar': {
-                title: 'School Calendar',
-                description: 'View important dates including holidays, parent-teacher conferences, testing schedules, and school events.'
-            },
-            'grades': {
-                title: 'Student Grades Portal',
-                description: 'Access your child\'s current grades, assignment scores, attendance records, and progress reports.'
-            },
-            'library': {
-                title: 'Library Resources',
-                description: 'Browse the school library catalog, reserve books, access digital resources, and view reading programs.'
-            },
-            'contact': {
-                title: 'Contact Information',
-                description: 'Find phone numbers, email addresses, and office hours for teachers, administrators, and support staff.'
-            }
-        };
-
-        let currentFormType = '';
-
-        // Initialize Element SDK
-        async function initializeApp() {
-            if (window.elementSdk) {
-                await window.elementSdk.init(elementConfig);
-            }
-        }
-
-        // Form handling functions
-        function openForm(formType) {
-            currentFormType = formType;
-            const info = formInfo[formType];
-            
-            document.getElementById('modal-title').textContent = info.title;
-            document.getElementById('modal-description').textContent = info.description;
-            document.getElementById('form-modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('form-modal').classList.add('hidden');
-            currentFormType = '';
-        }
-
-        function proceedToForm() {
-            // In a real application, this would navigate to the actual form
-            showNotification(`Opening ${formInfo[currentFormType].title}...`, 'info');
-            closeModal();
-        }
-
-        // Quick links handling
-        function showInfo(linkType) {
-            const info = linkInfo[linkType];
-            
-            document.getElementById('info-title').textContent = info.title;
-            document.getElementById('info-description').textContent = info.description;
-            document.getElementById('info-modal').classList.remove('hidden');
-        }
-
-        function closeInfoModal() {
-            document.getElementById('info-modal').classList.add('hidden');
-        }
-
-        // Notification system
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium ${
-                type === 'success' ? 'bg-green-600' : 
-                type === 'error' ? 'bg-red-600' : 'bg-blue-600'
-            }`;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        // Close modals when clicking outside
-        document.getElementById('form-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'form-modal') {
-                closeModal();
-            }
-        });
-
-        document.getElementById('info-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'info-modal') {
-                closeInfoModal();
-            }
-        });
-
-        // Initialize app when page loads
-        document.addEventListener('DOMContentLoaded', initializeApp);
-    </script>
 </html>

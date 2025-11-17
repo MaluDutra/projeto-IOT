@@ -1,38 +1,74 @@
 <!doctype html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aulas Cadastradas</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-        :root{ --accent-1: #667eea; --accent-2: #764ba2; }
-        body { box-sizing: border-box; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
-        .card { transition: transform .18s ease, box-shadow .18s ease; }
-        .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.12); }
-        .table-zebra tbody tr:nth-child(odd) { background-color: rgba(15, 23, 42, 0.02); }
-        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .icon-gradient { background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); }
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas Cadastradas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+        }
+
+        body {
+            box-sizing: border-box;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        .card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.12);
+        }
+
+        .table-zebra tbody tr:nth-child(odd) {
+            background-color: rgba(15, 23, 42, 0.02);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .icon-gradient {
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+        }
+
         .alert-danger {
-            background: #ffe5e5;                /* Light, soft red */
-            border-left: 6px solid #e63946;     /* Modern red accent */
-            border-radius: 12px;                /* Rounded corners to match your cards */
+            background: #ffe5e5;
+            /* Light, soft red */
+            border-left: 6px solid #e63946;
+            /* Modern red accent */
+            border-radius: 12px;
+            /* Rounded corners to match your cards */
             padding: 16px 20px;
             margin-bottom: 20px;
 
-            color: #8b0000;                     /* Darker readable red */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);  /* Soft floating card shadow */
+            color: #8b0000;
+            /* Darker readable red */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            /* Soft floating card shadow */
         }
 
         .alert-success {
-            background: #e5ffe9;                /* Light, soft green */
-            border-left: 6px solid #0f4e18;     /* Modern green accent */
-            border-radius: 12px;                /* Rounded corners to match your cards */
+            background: #e5ffe9;
+            /* Light, soft green */
+            border-left: 6px solid #0f4e18;
+            /* Modern green accent */
+            border-radius: 12px;
+            /* Rounded corners to match your cards */
             padding: 16px 20px;
             margin-bottom: 20px;
 
-            color: #0f4e18;                     /* Darker readable green */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);  /* Soft floating card shadow */
+            color: #0f4e18;
+            /* Darker readable green */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            /* Soft floating card shadow */
         }
 
         .alert ul {
@@ -45,23 +81,30 @@
         }
 
         .alert .btn-close {
-            filter: invert(25%); /* Makes the close icon dark red-ish */
+            filter: invert(25%);
+            /* Makes the close icon dark red-ish */
         }
-  </style>
- </head>
- <body class="min-h-full bg-gray-50">
-  <a href="/aulas" aria-label="Voltar" class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">← Voltar</a>
-  <!-- Main Content -->
-     <main class="max-w-6xl mx-auto px-4 py-12">
+    </style>
+</head>
+
+<body class="min-h-full bg-gray-50">
+    <a href="/aulas" aria-label="Voltar"
+        class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">←
+        Voltar</a>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12">
         <section class="mb-8">
             <div class="rounded-lg card p-6 bg-white shadow-sm">
                 <div class="flex items-center gap-4">
-                    <div class="icon-gradient rounded-full w-16 h-16 flex items-center justify-center text-white text-2xl">🎓</div>
+                    <div
+                        class="icon-gradient rounded-full w-16 h-16 flex items-center justify-center text-white text-2xl">
+                        🎓</div>
                     <div>
                         <h1 class="text-2xl font-semibold text-slate-800">Aulas Cadastradas</h1>
                         <p class="text-sm text-slate-500">Lista de aulas</p>
                     </div>
-                    <div class="ml-auto text-sm text-gray-600">Total: <strong class="text-slate-800">{{ dados|length }}</strong></div>
+                    <div class="ml-auto text-sm text-gray-600">Total: <strong class="text-slate-800">{{ dados|length
+                            }}</strong></div>
                 </div>
             </div>
         </section>
@@ -69,11 +112,14 @@
         <section class="mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
             <div class="flex-1">
                 <label class="sr-only" for="search-aulas">Pesquisar</label>
-                <input id="search-aulas" type="search" placeholder="Pesquisar por código ou nome..." class="w-full sm:w-80 rounded-md border border-gray-200 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+                <input id="search-aulas" type="search" placeholder="Pesquisar por código ou nome..."
+                    class="w-full rounded-md border border-gray-200 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
             </div>
             <div class="flex gap-2">
-                <a href="/aulas/add" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700">Adicionar</a>
-                <a href="/aulas/get" class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-md shadow-sm">Atualizar</a>
+                <a href="/aulas/add"
+                    class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700">Adicionar</a>
+                <a href="/aulas/get"
+                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-md shadow-sm">Atualizar</a>
             </div>
         </section>
 
@@ -82,38 +128,42 @@
                 <table class="min-w-full divide-y divide-gray-200 table-zebra">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Código</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nome</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ações</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-100">
                         {% if dados and dados|length > 0 %}
-                            {% for row in dados %}
-                                <tr class="hover:bg-slate-50">
-                                    {% for el in row %}
-                                        {% if loop.last %}
-                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
-                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">
-                                            <form method="GET" action="/aulas/edit2" class="inline mr-2">
-                                                <input type="hidden" name="codigo" value="{{ row[0] }}">
-                                                <button type="submit" class="text-indigo-600 hover:text-indigo-800">editar</button>
-                                            </form>
-                                            <form method="POST" action="/aulas/delete" class="inline">
-                                                <input type="hidden" name="codigo" value="{{ row[0] }}">
-                                                <button type="submit" class="text-red-600 hover:text-red-800">remover</button>
-                                            </form>
-                                        </td>
-                                        {% else %}
-                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
+                        {% for row in dados %}
+                        <tr class="hover:bg-slate-50">
+                            {% for el in row %}
+                            {% if loop.last %}
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">
+                                <form method="GET" action="/aulas/edit2" class="inline mr-2">
+                                    <input type="hidden" name="codigo" value="{{ row[0] }}">
+                                    <button type="submit" class="text-indigo-600 hover:text-indigo-800">editar</button>
+                                </form>
+                                <form method="POST" action="/aulas/delete" class="inline">
+                                    <input type="hidden" name="codigo" value="{{ row[0] }}">
+                                    <button type="submit" class="text-red-600 hover:text-red-800">remover</button>
+                                </form>
+                            </td>
+                            {% else %}
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ el }}</td>
+                            {% endif %}
                             {% endfor %}
+                        </tr>
+                        {% endfor %}
                         {% else %}
-                            <tr>
-                                <td colspan="3" class="px-4 py-10 text-center text-sm text-gray-500">Nenhuma aula encontrada.</td>
-                            </tr>
+                        <tr>
+                            <td colspan="3" class="px-4 py-10 text-center text-sm text-gray-500">Nenhuma aula
+                                encontrada.</td>
+                        </tr>
                         {% endif %}
                     </tbody>
                 </table>
@@ -122,205 +172,51 @@
 
         {% with errors = get_flashed_messages(category_filter=["error"]) %}
         {% if errors %}
-        <div class="alert alert-danger alert-dismissible fade show m-10"
-                role="alert">
+        <div class="alert alert-danger alert-dismissible fade show m-10" role="alert">
             <ul>
                 {%- for msg in errors %}
                 <li>{{ msg }}</li>
                 {% endfor -%}
             </ul>
 
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                    aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
         {% endwith %}
 
         {% with messages = get_flashed_messages(category_filter=["success"]) %}
         {% if messages %}
-        <div class="alert alert-success alert-dismissible fade show m-10"
-                role="alert">
+        <div class="alert alert-success alert-dismissible fade show m-10" role="alert">
             <ul>
                 {%- for msg in messages %}
                 <li>{{ msg }}</li>
                 {% endfor -%}
             </ul>
 
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                    aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
         {% endwith %}
 
-     </main>
-  <script>
-        // Default configuration
-        const defaultConfig = {
-            school_name: "Lincoln Elementary School",
-            school_motto: "Excellence in Education",
-            principal_name: "Dr. Sarah Johnson",
-            welcome_message: "Welcome to our school portal. Access forms, submit applications, and stay connected with our school community.",
-            footer_text: "© 2024 Lincoln Elementary School. All rights reserved."
-        };
+    </main>
+</body>
+<script>
+    // Search functionality
+    document.getElementById('search-aulas').addEventListener('input', function () {
+        const query = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
 
-        // Element SDK configuration
-        const elementConfig = {
-            defaultConfig,
-            onConfigChange: async (config) => {
-                document.getElementById('school-name').textContent = config.school_name || defaultConfig.school_name;
-                document.getElementById('school-motto').textContent = config.school_motto || defaultConfig.school_motto;
-                document.getElementById('principal-name').textContent = config.principal_name || defaultConfig.principal_name;
-                document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
-                document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
-            },
-            mapToCapabilities: (config) => ({
-                recolorables: [],
-                borderables: [],
-                fontEditable: undefined,
-                fontSizeable: undefined
-            }),
-            mapToEditPanelValues: (config) => new Map([
-                ["school_name", config.school_name || defaultConfig.school_name],
-                ["school_motto", config.school_motto || defaultConfig.school_motto],
-                ["principal_name", config.principal_name || defaultConfig.principal_name],
-                ["welcome_message", config.welcome_message || defaultConfig.welcome_message],
-                ["footer_text", config.footer_text || defaultConfig.footer_text]
-            ])
-        };
+        rows.forEach(row => {
+            const codigo = row.children[0].textContent.toLowerCase();
+            const nome = row.children[1].textContent.toLowerCase();
 
-        // Form information
-        const formInfo = {
-            'student-registration': {
-                title: 'Student Registration Form',
-                description: 'This form collects basic information for new student enrollment including personal details, previous school information, and parent/guardian contacts.'
-            },
-            'parent-contact': {
-                title: 'Parent Contact Form',
-                description: 'Update or provide current contact information for parents and guardians including phone numbers, email addresses, and emergency contacts.'
-            },
-            'field-trip': {
-                title: 'Field Trip Permission Form',
-                description: 'Grant permission for your child to participate in upcoming field trips and educational excursions outside of school grounds.'
-            },
-            'lunch-program': {
-                title: 'School Lunch Program Application',
-                description: 'Apply for free or reduced-price school meals based on family income and household size qualifications.'
-            },
-            'after-school': {
-                title: 'After School Activities Registration',
-                description: 'Register your child for sports teams, academic clubs, arts programs, and other extracurricular activities.'
-            },
-            'teacher-feedback': {
-                title: 'Teacher Feedback Form',
-                description: 'Share your thoughts and feedback about your child\'s educational experience, teacher performance, and suggestions for improvement.'
-            },
-            'volunteer': {
-                title: 'Volunteer Application Form',
-                description: 'Apply to become a school volunteer for events, classroom assistance, field trip chaperoning, and other community activities.'
-            },
-            'transportation': {
-                title: 'Transportation Request Form',
-                description: 'Request bus transportation services or update pickup/drop-off locations for your child\'s daily commute to school.'
-            },
-            'emergency-contact': {
-                title: 'Emergency Contact Update Form',
-                description: 'Update emergency contact information, medical conditions, allergies, and other critical safety information for your child.'
-            }
-        };
-
-        // Quick links information
-        const linkInfo = {
-            'calendar': {
-                title: 'School Calendar',
-                description: 'View important dates including holidays, parent-teacher conferences, testing schedules, and school events.'
-            },
-            'grades': {
-                title: 'Student Grades Portal',
-                description: 'Access your child\'s current grades, assignment scores, attendance records, and progress reports.'
-            },
-            'library': {
-                title: 'Library Resources',
-                description: 'Browse the school library catalog, reserve books, access digital resources, and view reading programs.'
-            },
-            'contact': {
-                title: 'Contact Information',
-                description: 'Find phone numbers, email addresses, and office hours for teachers, administrators, and support staff.'
-            }
-        };
-
-        let currentFormType = '';
-
-        // Initialize Element SDK
-        async function initializeApp() {
-            if (window.elementSdk) {
-                await window.elementSdk.init(elementConfig);
-            }
-        }
-
-        // Form handling functions
-        function openForm(formType) {
-            currentFormType = formType;
-            const info = formInfo[formType];
-            
-            document.getElementById('modal-title').textContent = info.title;
-            document.getElementById('modal-description').textContent = info.description;
-            document.getElementById('form-modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('form-modal').classList.add('hidden');
-            currentFormType = '';
-        }
-
-        function proceedToForm() {
-            // In a real application, this would navigate to the actual form
-            showNotification(`Opening ${formInfo[currentFormType].title}...`, 'info');
-            closeModal();
-        }
-
-        // Quick links handling
-        function showInfo(linkType) {
-            const info = linkInfo[linkType];
-            
-            document.getElementById('info-title').textContent = info.title;
-            document.getElementById('info-description').textContent = info.description;
-            document.getElementById('info-modal').classList.remove('hidden');
-        }
-
-        function closeInfoModal() {
-            document.getElementById('info-modal').classList.add('hidden');
-        }
-
-        // Notification system
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium ${
-                type === 'success' ? 'bg-green-600' : 
-                type === 'error' ? 'bg-red-600' : 'bg-blue-600'
-            }`;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        // Close modals when clicking outside
-        document.getElementById('form-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'form-modal') {
-                closeModal();
+            if (codigo.includes(query) || nome.includes(query)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
             }
         });
+    });
+</script>
 
-        document.getElementById('info-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'info-modal') {
-                closeInfoModal();
-            }
-        });
-
-        // Initialize app when page loads
-        document.addEventListener('DOMContentLoaded', initializeApp);
-    </script>
 </html>
