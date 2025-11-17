@@ -175,6 +175,14 @@
                                     <option value="Sexta">Sexta</option>
                                 </select>
                             </div>
+                            <div class="form-field"><label for="sala">Sala <span class="required">*</span></label>
+                                <select id="sala-option" name="sala-option" required>
+                                    <option value="">Selecione uma sala</option>
+                                    {% for sala in salas %}
+                                    <option value="{{ sala[0] }}">{{ sala[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div><!-- Submit Button -->

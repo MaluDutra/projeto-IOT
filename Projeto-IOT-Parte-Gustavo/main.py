@@ -259,9 +259,14 @@ def aulas_edit_get():
         """SELECT codigo
         FROM arcondicionado_aulas;""")
     aulas = cur.fetchall()
+    
+    cur.execute(
+        """SELECT codigo
+        FROM arcondicionado_salas;""")
+    salas = cur.fetchall()
     conn.commit()
 
-    return render_template('./aulas_edit.html', aulas=aulas)
+    return render_template('./aulas_edit.html', aulas=aulas, salas=salas)
 
 @app.route('/aulas/edit', methods=['POST'])
 def aulas_edit_post():
@@ -269,8 +274,9 @@ def aulas_edit_post():
     aula = request.form["aula-option"]
     turma = request.form["turma"]
     dia = request.form["dia"]
+    sala = request.form["sala-option"]
     try:
-        cur.execute('INSERT INTO arcondicionado_aulas_horas (aula, turma, dia) VALUES (%s, %s, %s);', (aula, turma, dia))
+        cur.execute('INSERT INTO arcondicionado_aulas_horas (aula, turma, dia, sala) VALUES (%s, %s, %s, %s);', (aula, turma, dia, sala))
     except:
         conn.commit()
         cur.close()
@@ -354,12 +360,13 @@ def aulas_get2():
 def turmas_edit2():
     cur = conn.cursor()
     # Check if it's the form to get the edit page or to update the turma
-    if 'dia' in request.form:  # This is the update form
+    if 'dia' in request.form and 'sala' in request.form:  # This is the update form
         aula = request.form["aula"]
         turma = request.form["turma"]
         dia = request.form["dia"]
+        sala = request.form["sala"]
         try:
-            cur.execute('UPDATE arcondicionado_aulas_horas SET dia = %s WHERE aula = %s AND turma = %s;', (dia, aula, turma))
+            cur.execute('UPDATE arcondicionado_aulas_horas SET dia = %s, sala = %s WHERE aula = %s AND turma = %s;', (dia, sala, aula, turma))
         except Exception as e:
             print(str(e))
             conn.commit()
@@ -374,14 +381,18 @@ def turmas_edit2():
         aula = request.args.get("aula")
         turma = request.args.get("turma")
         dia = request.args.get("dia")
-    
-    cur.execute('SELECT * FROM arcondicionado_aulas_horas WHERE aula = %s AND turma = %s AND dia = %s;', (aula, turma, dia))
+        sala = request.args.get("sala")
+        
+    cur.execute('SELECT * FROM arcondicionado_aulas_horas WHERE aula = %s AND turma = %s AND dia = %s AND sala = %s;', (aula, turma, dia, sala))
     turma_data = cur.fetchone()
+    
+    cur.execute('SELECT codigo FROM arcondicionado_salas;')
+    salas = cur.fetchall()
     
     conn.commit()
     cur.close()
     if turma_data:
-        return render_template('./turmas_edit2.html', turma=turma_data)
+        return render_template('./turmas_edit2.html', turma=turma_data, salas=salas)
     else:
         flash("Turma não encontrada", 'error')
         return redirect("/aulas/get2")

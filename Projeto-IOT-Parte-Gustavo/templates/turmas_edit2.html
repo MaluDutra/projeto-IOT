@@ -172,6 +172,14 @@
                                     <option value="Sexta" {% if turma[2]=="Sexta" %}selected{% endif %}>Sexta</option>
                                 </select>
                             </div>
+                            <div class="form-field">
+                                <label for="sala">Sala <span class="required">*</span></label>
+                                <select id="sala" name="sala" required>
+                                    {% for sala in salas %}
+                                    <option value="{{ sala[0] }}" {% if turma[3]==sala[0] %}selected{% endif %}>{{ sala[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
