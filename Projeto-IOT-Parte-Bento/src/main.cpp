@@ -1,8 +1,22 @@
 #include <Arduino.h>
 #include <Adafruit_BME680.h>
 #include <Adafruit_CCS811.h>
+#include <WiFi.h> 
+#include <WiFiClientSecure.h> 
+#include "certificados.h" 
+#include <MQTT.h>
+
+// TODO tudo do display
 
 #define BUZZZER_PIN  7
+
+/*=================== USER AREA ========================*/
+String id_dispositivo = "1"; // para qualidade do ar
+String sala = "LET";         // para temperatura
+/*=================== USER AREA ========================*/
+
+WiFiClientSecure conexaoSegura; 
+MQTTClient mqtt(1000);
 
 Adafruit_BME680 sensorBME;
 Adafruit_CCS811 sensorCCS;
@@ -77,10 +91,43 @@ void IRAM_ATTR isrPM1() {
   }
 }
 
+void reconectarWiFi() { 
+  if (WiFi.status() != WL_CONNECTED) { 
+    WiFi.begin("NOME DA REDE", "SENHA DA REDE"); 
+    Serial.print("Conectando ao WiFi..."); 
+    while (WiFi.status() != WL_CONNECTED) { 
+      Serial.print("."); 
+      delay(1000); 
+    } 
+    Serial.print("conectado!\nEndereço IP: "); 
+    Serial.println(WiFi.localIP()); 
+  } 
+}
+
+void reconectarMQTT() { 
+  if (!mqtt.connected()) { 
+    Serial.print("Conectando MQTT..."); 
+    while(!mqtt.connected()) { 
+      mqtt.connect("SEU ID", "LOGIN", "SENHA"); 
+      Serial.print("."); 
+      delay(1000); 
+    } 
+    Serial.println(" conectado!"); 
+    
+    /*
+    mqtt.subscribe("dispositivo/" + id_dispositivo);
+    mqtt.subscribe("sala/" + sala);
+    */
+  } 
+}
+
 void setup() 
 {
   Serial.begin(115200); delay(500);
+  delay(10000);
   Serial.println("Projeto IOT - Parte Bento");
+
+
 
   pinMode(BUZZZER_PIN, OUTPUT);
 
@@ -123,10 +170,20 @@ void setup()
   float temp = sensorCCS.calculateTemperature();
   sensorCCS.setTempOffset(temp - 25.0);
 
+  // WIFI e MQTT
+  reconectarWiFi(); 
+  conexaoSegura.setCACert(certificado1); 
+  mqtt.begin("mqtt.janks.dev.br", 1883, conexaoSegura); 
+  // mqtt.onMessage(recebeuMensagem); 
+  mqtt.setKeepAlive(10); 
+  mqtt.setWill("tópico da desconexão", "conteúdo");
+  reconectarMQTT();
 }
 
 void loop() 
 {
+  reconectarWiFi(); 
+  reconectarMQTT();
   unsigned long instanteAtual = millis();
 
   //static float lowPM = 0;
@@ -181,7 +238,16 @@ void loop()
     Serial.printf("DSM501A PM2.5:\nLow Ratio: %.0f, mg/m³: %.4f, pcs/0.283L: %.2f\n", low_percent_PM25, c_mgm3_PM25, c_pcs283ml_PM25);
     Serial.printf("DSM501A PM1.0:\nLow Ratio: %.0f, mg/m³: %.4f, pcs/0.283L: %.2f\n\n", low_percent_PM1, c_mgm3_PM1, c_pcs283ml_PM1);
     instanteAnterior = instanteAtual; 
+
+    // TODO fazer métrica de qualidade do ar
+    String QualidadeDoAr = "Bom";
+
+    mqtt.publish("dispositivo/" + id_dispositivo, QualidadeDoAr);
+    mqtt.publish("sala/" + sala, String(temperatura));
     
+
     //apitaBuzzer();
   }
+ 
+  mqtt.loop();
 }
