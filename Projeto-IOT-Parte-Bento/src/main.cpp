@@ -17,6 +17,11 @@ unsigned long instanteAnterior = 0;
 const int pinPM25 = 4;
 const int pinPM1 = 5;
 
+volatile unsigned long lowPulseTimePM25 = 0;
+volatile unsigned long lastTimePM25 = 0;
+volatile unsigned long lowPulseTimePM1 = 0; 
+volatile unsigned long lastTimePM1 = 0;
+
 float calc_low_ratio(float lowPulse) {
   return lowPulse / sampleTime * 100.0;  // low ratio in %
 }
@@ -38,6 +43,38 @@ void apitaBuzzer()
   analogWrite(BUZZZER_PIN, 32);
   delay(100);
   analogWrite(BUZZZER_PIN, 0);
+}
+
+// --- Funções de Interrupção (ISR) ---
+
+// ISR para o canal PM2.5 (>2.5µm)
+void IRAM_ATTR isrPM25() {
+  unsigned long now = micros();
+  // Se o pino for LOW, armazena o tempo atual.
+  if (digitalRead(pinPM25) == LOW) {
+    lastTimePM25 = now;
+  } 
+  // Se o pino for HIGH, o pulso LOW terminou.
+  else {
+    // Adiciona a duração do pulso LOW (em microssegundos)
+    if (lastTimePM25 != 0) {
+      lowPulseTimePM25 += now - lastTimePM25;
+      lastTimePM25 = 0;
+    }
+  }
+}
+
+// ISR para o canal PM1.0 (>1.0µm) - Adicionado
+void IRAM_ATTR isrPM1() {
+  unsigned long now = micros();
+  if (digitalRead(pinPM1) == LOW) {
+    lastTimePM1 = now;
+  } else {
+    if (lastTimePM1 != 0) {
+      lowPulseTimePM1 += now - lastTimePM1;
+      lastTimePM1 = 0;
+    }
+  }
 }
 
 void setup() 
@@ -71,6 +108,11 @@ void setup()
   pinMode(pinPM25, INPUT);
   pinMode(pinPM1, INPUT);
 
+  // Anexa a interrupção ao pino PM2.5, disparando em QUALQUER MUDANÇA (CHANGE)
+  attachInterrupt(digitalPinToInterrupt(pinPM25), isrPM25, CHANGE);
+  // Anexa a interrupção ao pino PM1.0
+  attachInterrupt(digitalPinToInterrupt(pinPM1), isrPM1, CHANGE);
+
   // Calibrando BME
   // aumenta amostragem dos sensores (1X, 2X, 4X, 8X, 16X ou NONE) 
   sensorBME.setTemperatureOversampling(BME680_OS_8X); 
@@ -87,12 +129,11 @@ void loop()
 {
   unsigned long instanteAtual = millis();
 
-  static float lowPM = 0;
-  lowPM += pulseIn(pinPM25, LOW) / 1000.0;   // >2.5µm (PM2.5)
+  //static float lowPM = 0;
+  //lowPM += pulseIn(pinPM25, LOW) / 1000.0;   // >2.5µm (PM2.5)
 
   if (instanteAtual > instanteAnterior + sampleTime)
   {
-    digitalWrite(BUZZZER_PIN, HIGH);
     sensorBME.performReading();
   
     if (sensorCCS.available() && !sensorCCS.readData())
@@ -106,16 +147,41 @@ void loop()
     float temperatura = sensorBME.temperature; 
     float umidade = sensorBME.humidity;
 
-    //START DSM501
-    float low_percent = calc_low_ratio(lowPM);
-    float c_mgm3 = calc_c_mgm3(lowPM);
-    float c_pcs283ml = calc_c_pcs283ml(lowPM);
-
-    lowPM = 0;
-    // END
+    // --- Processamento do DSM501A ---
     
-    Serial.printf("temperatura: %.2f, umildade: %.2f, CO2: %.0f, TVOC: %.0f, low_percent: %f, c_mg3: %f, c_pcs283ml: %f \n\n", temperatura, umidade, eCO2, TVOC, low_percent, c_mgm3, c_pcs283ml);
+    // 1. Desabilita as interrupções para garantir que a leitura seja atômica
+    //    e que 'lowPulseTime' não seja alterado durante a cópia/reset.
+    detachInterrupt(digitalPinToInterrupt(pinPM25));
+    detachInterrupt(digitalPinToInterrupt(pinPM1));
+
+    // 2. Copia o tempo acumulado (agora em microssegundos)
+    // Converte para milissegundos (dividir por 1000.0) para usar nas suas funções de cálculo.
+    float lowPM25_ms = lowPulseTimePM25 / 1000.0;
+    float lowPM1_ms = lowPulseTimePM1 / 1000.0;
+
+    // 3. Reseta os contadores para o próximo período de amostragem
+    lowPulseTimePM25 = 0;
+    lowPulseTimePM1 = 0;
+
+    // 4. Reabilita as interrupções
+    attachInterrupt(digitalPinToInterrupt(pinPM25), isrPM25, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(pinPM1), isrPM1, CHANGE);
+
+    // --- Cálculos de PM2.5 ---
+    float low_percent_PM25 = calc_low_ratio(lowPM25_ms);
+    float c_mgm3_PM25 = calc_c_mgm3(lowPM25_ms);
+    float c_pcs283ml_PM25 = calc_c_pcs283ml(lowPM25_ms);
+
+    // --- Cálculos de PM1.0 (Exemplo - Usando a mesma fórmula, mas deve ser ajustado para PM1.0 se houver) ---
+    float low_percent_PM1 = calc_low_ratio(lowPM1_ms);
+    float c_mgm3_PM1 = calc_c_mgm3(lowPM1_ms); // Use fórmulas específicas para PM1 se as tiver
+    float c_pcs283ml_PM1 = calc_c_pcs283ml(lowPM1_ms); // Use fórmulas específicas para PM1 se as tiver
+    
+    Serial.printf("temperatura: %.2f, umildade: %.2f, CO2: %.0f, TVOC: %.0f\n", temperatura, umidade, eCO2, TVOC);
+    Serial.printf("DSM501A PM2.5:\nLow Ratio: %.0f, mg/m³: %.4f, pcs/0.283L: %.2f\n", low_percent_PM25, c_mgm3_PM25, c_pcs283ml_PM25);
+    Serial.printf("DSM501A PM1.0:\nLow Ratio: %.0f, mg/m³: %.4f, pcs/0.283L: %.2f\n\n", low_percent_PM1, c_mgm3_PM1, c_pcs283ml_PM1);
     instanteAnterior = instanteAtual; 
+    
     //apitaBuzzer();
   }
 }
