@@ -5,15 +5,19 @@
 #include <WiFiClientSecure.h> 
 #include "certificados.h" 
 #include <MQTT.h>
+#include <GxEPD2_BW.h> 
+#include <U8g2_for_Adafruit_GFX.h> 
 
-// TODO tudo do display
-
-#define BUZZZER_PIN  7
 
 /*=================== USER AREA ========================*/
 String id_dispositivo = "1"; // para qualidade do ar
 String sala = "LET";         // para temperatura
 /*=================== USER AREA ========================*/
+U8G2_FOR_ADAFRUIT_GFX fontes; 
+GxEPD2_290_T94_V2 modeloTela(10, 14, 15, 16); 
+GxEPD2_BW<GxEPD2_290_T94_V2, GxEPD2_290_T94_V2::HEIGHT> tela(modeloTela);
+
+#define BUZZZER_PIN  7
 
 WiFiClientSecure conexaoSegura; 
 MQTTClient mqtt(1000);
@@ -55,7 +59,7 @@ float calc_c_pcs283ml(float lowPulse) {
 void apitaBuzzer()
 {
   analogWrite(BUZZZER_PIN, 32);
-  delay(100);
+  delay(150);
   analogWrite(BUZZZER_PIN, 0);
 }
 
@@ -93,7 +97,7 @@ void IRAM_ATTR isrPM1() {
 
 void reconectarWiFi() { 
   if (WiFi.status() != WL_CONNECTED) { 
-    WiFi.begin("NOME DA REDE", "SENHA DA REDE"); 
+    WiFi.begin("Projeto", "2022-11-07"); 
     Serial.print("Conectando ao WiFi..."); 
     while (WiFi.status() != WL_CONNECTED) { 
       Serial.print("."); 
@@ -108,7 +112,7 @@ void reconectarMQTT() {
   if (!mqtt.connected()) { 
     Serial.print("Conectando MQTT..."); 
     while(!mqtt.connected()) { 
-      mqtt.connect("SEU ID", "LOGIN", "SENHA"); 
+      mqtt.connect("bento_bruno", "aula", "zowmad-tavQez"); 
       Serial.print("."); 
       delay(1000); 
     } 
@@ -121,13 +125,70 @@ void reconectarMQTT() {
   } 
 }
 
+void desenhaEsqueleto()
+{
+  tela.fillScreen(GxEPD_WHITE); 
+
+  fontes.setFont(u8g2_font_open_iconic_all_4x_t);
+  fontes.setFontMode(1);
+  fontes.setCursor(10,60);
+  fontes.print((char)141);
+  fontes.setCursor(10,110);
+  fontes.print((char) 152);
+
+  tela.drawCircle(230, 75, 40, GxEPD_BLACK);
+  tela.fillCircle(210, 60, 4, GxEPD_BLACK);
+  tela.fillCircle(250, 60, 4, GxEPD_BLACK);
+
+  fontes.setFont(u8g2_font_helvB10_te);
+  fontes.setFontMode(1);
+  fontes.setCursor(170, 20);
+  fontes.print("Qualidade do ar:");
+  tela.display(true);
+
+  Serial.println("Esqueleto desenhado!");
+}
+
+void desenhaDados(float temperatura, float umidade, int qualidadeDoAr)
+{
+  char aux[10];
+  snprintf (aux, sizeof(aux), "%.1f", temperatura);
+  String tempString = String(aux) + " °C";
+
+  snprintf (aux, sizeof(aux), "%.1f", umidade);
+  String umiString = String(aux) + " %";
+
+  fontes.setFont(u8g2_font_helvB10_te);
+  fontes.setFontMode(1);
+  fontes.setCursor(50, 55);
+  fontes.print(tempString);
+
+  fontes.setCursor(50, 105);
+  fontes.print(umiString);
+
+  if (qualidadeDoAr == 0) // ruim
+  {
+    tela.drawCircle(230, 95, 15, GxEPD_BLACK);
+    tela.fillRect(212, 90, 37, 21, GxEPD_WHITE);
+  }
+  else if (qualidadeDoAr == 1) // média
+  {
+    tela.drawLine(220, 90, 240, 90, GxEPD_BLACK);
+  }
+  else // boa 
+  {
+    tela.drawCircle(230, 95, 15, GxEPD_BLACK);
+    tela.fillRect(210, 70, 40, 30, GxEPD_WHITE);
+  }
+  
+  tela.display(true);
+}
+
 void setup() 
 {
   Serial.begin(115200); delay(500);
   delay(10000);
   Serial.println("Projeto IOT - Parte Bento");
-
-
 
   pinMode(BUZZZER_PIN, OUTPUT);
 
@@ -170,10 +231,22 @@ void setup()
   float temp = sensorCCS.calculateTemperature();
   sensorCCS.setTempOffset(temp - 25.0);
 
+  // Tela
+  tela.init(); 
+  tela.setRotation(3); 
+  tela.fillScreen(GxEPD_WHITE); 
+  tela.display(true); 
+   
+  fontes.begin(tela); 
+  fontes.setForegroundColor(GxEPD_BLACK);
+
+  desenhaEsqueleto();
+  desenhaDados(20.0f, 10.0f, 0);
+
   // WIFI e MQTT
   reconectarWiFi(); 
   conexaoSegura.setCACert(certificado1); 
-  mqtt.begin("mqtt.janks.dev.br", 1883, conexaoSegura); 
+  mqtt.begin("mqtt.janks.dev.br", 8883, conexaoSegura); 
   // mqtt.onMessage(recebeuMensagem); 
   mqtt.setKeepAlive(10); 
   mqtt.setWill("tópico da desconexão", "conteúdo");
@@ -242,11 +315,13 @@ void loop()
     // TODO fazer métrica de qualidade do ar
     String QualidadeDoAr = "Bom";
 
-    mqtt.publish("dispositivo/" + id_dispositivo, QualidadeDoAr);
-    mqtt.publish("sala/" + sala, String(temperatura));
-    
+    //mqtt.publish("dispositivo/" + id_dispositivo, QualidadeDoAr);
+    //mqtt.publish("sala/" + sala, String(temperatura));
 
-    //apitaBuzzer();
+    mqtt.publish("enviaDados/", ""); // TODO serializar dados: "dispositivo, sala, temperatura, qualidadeDoAr"
+
+
+    apitaBuzzer();
   }
  
   mqtt.loop();
