@@ -1,9 +1,21 @@
+#include <Arduino.h>
+#include <WiFi.h>
+#include <WiFiClientSecure.h>
+#include "certificados.h"
+#include <MQTT.h>
+#include <ArduinoJson.h>
 #include <IRremoteESP8266.h>
 #include <IRac.h>
 #include <IRutils.h>
+#include <string>
+
+WiFiClientSecure conexaoSegura;
+MQTTClient mqtt(1000);
 
 const uint16_t IRled = 4;    // pino do bagulho que envia
 IRac ar_condicionado(IRled); // classe que realiza o controle genérico do ar condicionado
+
+int num_dispositivo = 1;
 
 enum class comando
 {
@@ -28,6 +40,7 @@ struct ACControle
 };
 
 stdAc::state_t estadoDoAr;
+
 
 void setup_AC()
 {
@@ -127,18 +140,95 @@ void imprimeEstadoDoAr(stdAc::state_t estado)
   }
 }
 
+void reconectarWiFi()
+{
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    WiFi.begin("Projeto", "2022-11-07"); // verificar!!
+    Serial.print("Conectando ao WiFi...");
+    while (WiFi.status() != WL_CONNECTED)
+    {
+      Serial.print(".");
+      delay(1000);
+    }
+    Serial.print("conectado!\nEndereço IP: ");
+    Serial.println(WiFi.localIP());
+  }
+}
+
+void reconectarMQTT()
+{
+  if (!mqtt.connected())
+  {
+    Serial.print("Conectando MQTT...");
+    while (!mqtt.connected())
+    {
+      mqtt.connect("8883", "aula", "zowmad-tavQez");!
+      Serial.print(".");
+      delay(1000);
+    }
+    Serial.println(" conectado!");
+
+    mqtt.subscribe("arcondicionado/dispositivos/" + String(num_dispositivo), 1);
+  }
+}
+
+void recebeuMensagem(String topico, String conteudo)
+{
+  Serial.println(topico + ": " + conteudo);
+
+  if (topico.startsWith("arcondicionado/dispositivos/" + String(num_dispositivo))) 
+  {
+    // recebeu mudança de temperatura!
+    Serial.print("Mudar para temperatura: ");
+    Serial.println(conteudo);
+
+    ACControle comandoDoAr;
+    comandoDoAr.tipo = comando::Temperature;
+    float nova_temperatura = conteudo.toFloat();
+    comandoDoAr.instrucao.temperatura = nova_temperatura;
+
+    envia_comando(&comandoDoAr);
+
+    Serial.println("Novo estado do ar:");
+    estadoDoAr = ar_condicionado.getState(); // Para pegar o estado do ar
+    imprimeEstadoDoAr(estadoDoAr);
+    Serial.println("==============================================\n");
+  }
+}
+
 void setup()
 {
   Serial.begin(115200);
   delay(500);
+  Serial.println("Projeto - Telegram");
+
+  reconectarWiFi();
+  conexaoSegura.setCACert(certificado1);
+
+  mqtt.begin("mqtt.janks.dev.br", 8883, conexaoSegura);
+  mqtt.onMessage(recebeuMensagem);
+  mqtt.setKeepAlive(10);
+  
+  char topico_will[] = "arcondicionado/dispositivos/desconexao";
+  char mensagem_will[] = "%s", String(num_dispositivo);
+  mqtt.setWill(topico_will, mensagem_will);
+  reconectarMQTT();
 
   setup_AC();
+  Serial.println("Estado inicial do ar:");
+  imprimeEstadoDoAr(estadoDoAr);
+  Serial.println("==============================================\n");
 }
 
 unsigned int instanteAnterior = 0;
 bool ligado = false;
 void loop()
 {
+  reconectarWiFi();
+  reconectarMQTT();
+  mqtt.loop();
+
   unsigned long instanteAtual = millis();
   if (instanteAtual > instanteAnterior + 5000)
   {
