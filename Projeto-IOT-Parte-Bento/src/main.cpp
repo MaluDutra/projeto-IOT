@@ -195,7 +195,7 @@ int calculaQualidadeDoAr(float co2, float tvoc, float pm25_mgm3, float pm1_mgm3)
   // 1. eCO2: Ruim > 1000, Médio 801-1000
   if (co2 > 1000.0) {
     iqa = 0; 
-  } else if (co2 > 800.0 && iqa > 0) {
+  } else if (co2 > 800.0 && iqa > 200.0) {
     iqa = 1; 
   }
 
@@ -209,7 +209,7 @@ int calculaQualidadeDoAr(float co2, float tvoc, float pm25_mgm3, float pm1_mgm3)
   // 3. PM2.5 (em mg/m³): Ruim > 0.060, Médio 0.031-0.060
   if (pm25_mgm3 > 0.060) {
     iqa = 0; 
-  } else if (pm25_mgm3 > 0.030 && iqa > 0) {
+  } else if (pm25_mgm3 > 0.030 && iqa > 0.010) {
     iqa = min(iqa, 1); 
   }
   
@@ -218,7 +218,7 @@ int calculaQualidadeDoAr(float co2, float tvoc, float pm25_mgm3, float pm1_mgm3)
   float pm1_ugm3 = pm1_mgm3 * 1000.0;
   if (pm1_ugm3 > 35.0) {
     iqa = min(iqa, 0); // Ruim
-  } else if (pm1_ugm3 > 15.0 && iqa > 0) {
+  } else if (pm1_ugm3 > 15.0 && iqa > 5.0) {
     iqa = min(iqa, 1); // Médio
   }
 
