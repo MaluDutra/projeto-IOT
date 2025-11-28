@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Aparelhos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+        }
+
+        body {
+            box-sizing: border-box;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        .card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
+        }
+
+        .form-card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.06);
+        }
+
+        .icon-gradient {
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+            border-radius: 12px;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-full bg-gray-50">
+    <a href="/" aria-label="Voltar"
+        class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">←
+        Voltar</a>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <section class="mb-6">
+            <div class="rounded-lg card p-6 bg-white shadow-sm flex items-center gap-4">
+                <div class="icon-gradient">❄️</div>
+                <div>
+                    <h1 class="text-2xl font-semibold text-slate-800">Cadastro de Aparelhos</h1>
+                    <p class="text-sm text-slate-500">Gerencie aparelhos e sua localização.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aparelhos/add">
+                    <div class="icon-gradient mx-auto mb-4">📝</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Cadastrar aparelho</h3>
+                    <p class="text-gray-600">Adicione um novo aparelho ao inventário.</p>
+                </a>
+
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aparelhos/get">
+                    <div class="icon-gradient mx-auto mb-4">🔌</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Ver Aparelhos</h3>
+                    <p class="text-gray-600">Lista de aparelhos cadastrados.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

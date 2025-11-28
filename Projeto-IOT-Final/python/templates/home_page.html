@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu — Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+        }
+
+        body {
+            box-sizing: border-box;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        .card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.12);
+        }
+
+        .form-card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 36px rgba(2, 6, 23, 0.08);
+        }
+
+        .icon-gradient {
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+        }
+
+        .icon-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.6rem;
+        }
+
+        .alert-danger {
+            background: #ffe5e5;
+            /* Light, soft red */
+            border-left: 6px solid #e63946;
+            /* Modern red accent */
+            border-radius: 12px;
+            /* Rounded corners to match your cards */
+            padding: 16px 20px;
+            margin-bottom: 20px;
+
+            color: #8b0000;
+            /* Darker readable red */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            /* Soft floating card shadow */
+        }
+
+        .alert-success {
+            background: #e5ffe9;
+            /* Light, soft green */
+            border-left: 6px solid #0f4e18;
+            /* Modern green accent */
+            border-radius: 12px;
+            /* Rounded corners to match your cards */
+            padding: 16px 20px;
+            margin-bottom: 20px;
+
+            color: #0f4e18;
+            /* Darker readable green */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            /* Soft floating card shadow */
+        }
+
+        .alert ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .alert li {
+            margin-bottom: 4px;
+        }
+
+        .alert .btn-close {
+            filter: invert(25%);
+            /* Makes the close icon dark red-ish */
+        }
+    </style>
+</head>
+
+<body class="min-h-full bg-gray-50">
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <section class="mb-8">
+            <div class="rounded-lg card p-6 bg-white shadow-sm">
+                <div class="flex items-center gap-4">
+                    <div
+                        class="icon-gradient rounded-full w-16 h-16 flex items-center justify-center text-white text-2xl">
+                        🏫</div>
+                    <div>
+                        <h1 class="text-2xl font-semibold text-slate-800">Menu de Cadastro</h1>
+                        <p class="text-sm text-slate-500">Acesse as áreas de cadastro e visualização</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Cards Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a href="/alunos"
+                class="form-card card bg-white rounded-lg p-6 border border-gray-200 shadow-sm text-center">
+                <div class="icon-gradient icon-circle mx-auto mb-4">👩‍🎓</div>
+                <h3 class="text-lg font-semibold text-slate-800">Cadastro de Alunos</h3>
+                <p class="text-sm text-slate-500 mt-2">Cadastre, edite e veja os alunos.</p>
+            </a>
+
+            <a href="/aulas"
+                class="form-card card bg-white rounded-lg p-6 border border-gray-200 shadow-sm text-center">
+                <div class="icon-gradient icon-circle mx-auto mb-4">📚</div>
+                <h3 class="text-lg font-semibold text-slate-800">Cadastro de Aulas</h3>
+                <p class="text-sm text-slate-500 mt-2">Gerencie as aulas e horários.</p>
+            </a>
+
+            <a href="/salas"
+                class="form-card card bg-white rounded-lg p-6 border border-gray-200 shadow-sm text-center">
+                <div class="icon-gradient icon-circle mx-auto mb-4">🚪</div>
+                <h3 class="text-lg font-semibold text-slate-800">Cadastro de Salas</h3>
+                <p class="text-sm text-slate-500 mt-2">Gerencie salas e recursos.</p>
+            </a>
+
+            <a href="/aparelhos"
+                class="form-card card bg-white rounded-lg p-6 border border-gray-200 shadow-sm text-center">
+                <div class="icon-gradient icon-circle mx-auto mb-4">❄️</div>
+                <h3 class="text-lg font-semibold text-slate-800">Cadastro de Aparelhos</h3>
+                <p class="text-sm text-slate-500 mt-2">Adicione e monitore aparelhos.</p>
+            </a>
+        </section>
+
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% if errors %}
+        <div class="alert alert-danger alert-dismissible fade show m-10" role="alert">
+            <ul>
+                {%- for msg in errors %}
+                <li>{{ msg }}</li>
+                {% endfor -%}
+            </ul>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% if messages %}
+        <div class="alert alert-success alert-dismissible fade show m-10" role="alert">
+            <ul>
+                {%- for msg in messages %}
+                <li>{{ msg }}</li>
+                {% endfor -%}
+            </ul>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </main>
+</body>
+
+</html>

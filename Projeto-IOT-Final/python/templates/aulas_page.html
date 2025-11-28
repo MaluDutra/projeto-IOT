@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Aulas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+        }
+
+        body {
+            box-sizing: border-box;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        .card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
+        }
+
+        .form-card {
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.06);
+        }
+
+        .icon-gradient {
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+            border-radius: 12px;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-full bg-gray-50">
+    <a href="/" aria-label="Voltar"
+        class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">←
+        Voltar</a>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <section class="mb-6">
+            <div class="rounded-lg card p-6 bg-white shadow-sm flex items-center gap-4">
+                <div class="icon-gradient">📚</div>
+                <div>
+                    <h1 class="text-2xl font-semibold text-slate-800">Cadastro de Aulas</h1>
+                    <p class="text-sm text-slate-500">Gerencie aulas e turmas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aulas/add">
+                    <div class="icon-gradient mx-auto mb-4">📝</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Cadastrar aula</h3>
+                    <p class="text-gray-600">Crie uma nova disciplina ou conteúdo.</p>
+                </a>
+
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aulas/get">
+                    <div class="icon-gradient mx-auto mb-4">🎓</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Listar aulas</h3>
+                    <p class="text-gray-600">Veja todas as aulas.</p>
+                </a>
+
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aulas/edit">
+                    <div class="icon-gradient mx-auto mb-4">✏️</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Adicionar turma</h3>
+                    <p class="text-gray-600">Configure horários e turmas para aulas.</p>
+                </a>
+
+                <a class="form-card bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center"
+                    href="/aulas/get2">
+                    <div class="icon-gradient mx-auto mb-4">📕</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Listar turmas</h3>
+                    <p class="text-gray-600">Veja todas as turmas e horários.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

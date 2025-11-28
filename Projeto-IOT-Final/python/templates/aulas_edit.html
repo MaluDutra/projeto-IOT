@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas e Dias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', -webkit-system-font, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-field label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-field input:invalid {
+            border-color: #ef4444;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .submit-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="min-h-full bg-gray-50">
+    <a href="/aulas" aria-label="Voltar"
+        class="fixed top-4 left-4 z-50 inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50">←
+        Voltar</a>
+    <div class="min-h-full"><!-- Header -->
+        <header class="hero-section">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-4xl mb-4">
+                    ✏️
+                </div>
+                <h1 id="form-title" class="text-3xl md:text-4xl font-bold mb-2">Cadastre uma Turma</h1>
+            </div>
+        </header><!-- Main Content -->
+        <main class="max-w-4xl mx-auto px-4 py-8"><!-- Progress Bar -->
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div><!-- Success Message (Hidden by default) -->
+            <div id="success-message" class="success-message hidden">
+                <div class="text-3xl mb-4">
+                    ✅
+                </div>
+                <h2 class="text-2xl font-bold mb-2">Cadastrado com sucesso!</h2>
+            </div><!-- Registration Form -->
+            <form method="POST">
+                <!-- Student Information Section -->
+                <div class="form-section">
+                    <div class="section-header"><span>👨‍🏫 Adicione uma turma</span>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-field"><label for="aula">Aula <span class="required">*</span></label>
+                                <select id="aula-option" name="aula-option" required>
+                                    <option value="">Selecione uma aula</option>
+                                    {% for aula in aulas %}
+                                    <option value="{{ aula[0] }}">{{ aula[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-field"><label for="turma">Turma <span class="required">*</span></label>
+                                <input type="text" id="turma" name="turma" required>
+                            </div>
+                            <div class="form-field"><label for="dia">Dia <span class="required">*</span></label> <select
+                                    id="dia" name="dia" required>
+                                    <option value="">Selecione um dia</option>
+                                    <option value="Segunda">Segunda</option>
+                                    <option value="Terça">Terça</option>
+                                    <option value="Quarta">Quarta</option>
+                                    <option value="Quinta">Quinta</option>
+                                    <option value="Sexta">Sexta</option>
+                                </select>
+                            </div>
+                            <div class="form-field"><label for="sala">Sala <span class="required">*</span></label>
+                                <select id="sala-option" name="sala-option" required>
+                                    <option value="">Selecione uma sala</option>
+                                    {% for sala in salas %}
+                                    <option value="{{ sala[0] }}">{{ sala[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Submit Button -->
+                <div class="text-center"><button type="submit" id="submit-btn" class="submit-button"> <span>Cadastrar
+                            Turma</span></button>
+                </div>
+            </form>
+        </main>
+    </div>
+    <script>
+        // Form progress tracking
+        function updateProgress() {
+            const form = document.querySelector('form');
+            const requiredFields = form.querySelectorAll('[required]');
+            let filledFields = 0;
+
+            requiredFields.forEach(field => {
+                if (field.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
+
+            const progress = (filledFields / requiredFields.length) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+        }
+
+        // Add progress tracking to all form fields
+        document.addEventListener('DOMContentLoaded', () => {
+            const formFields = document.querySelectorAll('form input, form select');
+            formFields.forEach(field => {
+                field.addEventListener('input', updateProgress);
+                field.addEventListener('change', updateProgress);
+            });
+
+            // Initialize progress
+            updateProgress();
+        });
+    </script>
+
+</html>
