@@ -1,0 +1,3074 @@
+[
+    {
+        "id": "3edf58e19db34b7b",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6880352ebc9f359d",
+        "type": "telegram receiver",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 110,
+        "y": 320,
+        "wires": [
+            [
+                "dd0dc4e4dc27f569",
+                "d53c41ac18f39206"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "3149243d9a1dcb61",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2450,
+        "y": 1980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dd0dc4e4dc27f569",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 140,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "f1e7b8efbef2c85b",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.type",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.messageId",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.date",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1200,
+        "y": 1800,
+        "wires": [
+            [
+                "0fd9068fcc5b6dba",
+                "232cff8a92ab7393"
+            ]
+        ]
+    },
+    {
+        "id": "0fd9068fcc5b6dba",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1280,
+        "y": 1920,
+        "wires": []
+    },
+    {
+        "id": "232cff8a92ab7393",
+        "type": "postgresql",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "query": "SELECT * \nFROM arcondicionado_alunos\nWHERE id_chat = $chatId",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1510,
+        "y": 1800,
+        "wires": [
+            [
+                "5980cfb713915bf3",
+                "7458de61ccaebc9d"
+            ]
+        ]
+    },
+    {
+        "id": "5980cfb713915bf3",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1640,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "7458de61ccaebc9d",
+        "type": "switch",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1710,
+        "y": 1800,
+        "wires": [
+            [
+                "664b2243c3b2bdcf",
+                "b876a3095f7d3ed5"
+            ],
+            [
+                "5ff59c76c5263f48"
+            ]
+        ]
+    },
+    {
+        "id": "5ff59c76c5263f48",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Você não está cadastrado! Digite sua matrícula:\",\n    \"chatId\": \"{{queryParameters.chatId}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 1920,
+        "y": 1980,
+        "wires": [
+            [
+                "036604bdd3850e73",
+                "17bed771812d5b87"
+            ]
+        ]
+    },
+    {
+        "id": "37a624a67f70727a",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2410,
+        "y": 1800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d110ae3a8abac753",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2380,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "5169276f45ee5cf4",
+        "type": "switch",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Iniciar votação",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Verificar temperatura atual",
+                "vt": "str"
+            },
+            {
+                "t": "regex",
+                "v": "^\\d+$",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "eq",
+                "v": "Desvincular dispositivo da matrícula",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 590,
+        "y": 320,
+        "wires": [
+            [
+                "437d32fbb8cc3190",
+                "f9aabaed24d64863"
+            ],
+            [
+                "d63e061bc29986a8",
+                "62b6ffb3ea40d50e"
+            ],
+            [
+                "6ad20ccb832139b1",
+                "15910b6e0fc09f2f"
+            ],
+            [
+                "bd208b6aecbfc317"
+            ],
+            [
+                "f1e7b8efbef2c85b"
+            ]
+        ]
+    },
+    {
+        "id": "036604bdd3850e73",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2140,
+        "y": 2040,
+        "wires": []
+    },
+    {
+        "id": "80ae18663f5ee668",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "realizar cadastro",
+        "info": "realizar cadastro",
+        "x": 2440,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "437d32fbb8cc3190",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d63e061bc29986a8",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "664b2243c3b2bdcf",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload[0].nome",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1900,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "74fc8dd92367845b",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "se receber matrícula... etc...",
+        "info": "se receber matrícula...\nse receber as votações...",
+        "x": 580,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "5dc07ea079756170",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1330,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0f2440fe5fc2fef5",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Oie, {{payload.nome}}! O que deseja fazer?\",\n    \"chatId\": \"{{queryParameters.chatId}}\",\n    \"type\": \"message\",\n    \"options\": {\n        \"reply_markup\": {\n            \"keyboard\": [\n                [{\"text\": \"Iniciar votação\"}],\n                [{\"text\": \"Verificar temperatura atual\"}],\n                [{\"text\": \"Desvincular dispositivo da matrícula\"}]\n            ]\n        }\n    }\n}",
+        "output": "json",
+        "x": 2180,
+        "y": 1800,
+        "wires": [
+            [
+                "37a624a67f70727a",
+                "d110ae3a8abac753"
+            ]
+        ]
+    },
+    {
+        "id": "f36140f7969a5576",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Digite a temperatura para a qual deseja alterar. Escreva a temperatura em Celsius.\",\n    \"chatId\": \"{{payload.chatId}}\",\n    \"type\": \"message\",\n    \"options\": {\n        \"reply_markup\": {\n            \"remove_keyboard\": true\n        }\n    }\n}",
+        "output": "json",
+        "x": 1120,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "da3bbc97f29f6a6c",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "934e4f2080858ede",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "pegar a temperatura atual da sala do aluno que mandou a mensagem e mostrar para ele",
+        "info": "",
+        "x": 1270,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "6ad20ccb832139b1",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "aa1e3be46cc9ad4f",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "Iniciar votação",
+        "info": "",
+        "x": 970,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "43cfa62f27c73c89",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1480,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "f943206860c06b39",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "receber número",
+        "info": "",
+        "x": 960,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "a6587252dbadb75b",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2750,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aeb9ebbc52cb1c93",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2420,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "78188eb2f9ddb351",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"A temperatura atual da sala da aula {{payload.sala}} é {{payload.temperatura}}°C.\",\n    \"chatId\": \"{{global.id_chat_atual}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 2220,
+        "y": 360,
+        "wires": [
+            [
+                "aeb9ebbc52cb1c93",
+                "850c9fd9fdf6892b"
+            ]
+        ]
+    },
+    {
+        "id": "d73341e88534af2d",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "não está ocorrendo cadastro e nem votação",
+        "info": "",
+        "x": 1210,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "3304d2bad25e6a95",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "ocorrendo cadastro --> recebeu matrícula",
+        "info": "",
+        "x": 1740,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "15910b6e0fc09f2f",
+        "type": "switch",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "property": "ocorrendoCadastro",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 970,
+        "y": 640,
+        "wires": [
+            [
+                "43cfa62f27c73c89",
+                "2b15632ad4dfca22"
+            ],
+            [
+                "5ee70153c12c2ce2",
+                "7ac39bf9309e5e93"
+            ]
+        ]
+    },
+    {
+        "id": "d53c41ac18f39206",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 3",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "//O código adicionado aqui será executado uma vez\n// sempre que o nó for iniciado.\nglobal.set(\"ocorrendoVotacao\", false);\nglobal.set(\"ocorrendoCadastro\", false);\n\nglobal.set(\"chat_origem\", '');\nglobal.set(\"id_chat_atual\", '');\n\nglobal.set(\"temperatura\", -1);\nglobal.set(\"temperatura_final_votacao\", -1);\n\nglobal.set(\"votacao_esperados\", []);\nglobal.set(\"votacao_respostas\", []);\n\nglobal.set(\"sala_votacao\", '');\n",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 320,
+        "wires": [
+            [
+                "5169276f45ee5cf4"
+            ]
+        ]
+    },
+    {
+        "id": "6b0e7fe3d7ea8cb1",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "seta as varíaveis globais",
+        "info": "",
+        "x": 370,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "fc0482d91dbf7570",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "mostrar opções",
+        "info": "",
+        "x": 2420,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "17bed771812d5b87",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "ocorrendoCadastro",
+                "pt": "global",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2170,
+        "y": 1980,
+        "wires": [
+            [
+                "3149243d9a1dcb61"
+            ]
+        ]
+    },
+    {
+        "id": "40d964aa32fb2ab6",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "receber qualquer coisa",
+        "info": "",
+        "x": 940,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "28ad35d641d9d33f",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "ocorrendoCadastro",
+                "pt": "global",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "move",
+                "p": "payload[0]",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "id_chat_cadastro",
+                "pt": "global",
+                "to": "queryParameters.id_chat",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "id_chat_cadastro",
+                "pt": "global",
+                "to": "queryParameters.id_chat",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2280,
+        "y": 600,
+        "wires": [
+            [
+                "1199e96eb83f66a7",
+                "a14a9b9fe6b4314c"
+            ]
+        ]
+    },
+    {
+        "id": "5ee70153c12c2ce2",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "2b15632ad4dfca22",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "id_chat_cadastro",
+                "pt": "global",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.type",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.messageId",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.date",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1600,
+        "y": 640,
+        "wires": [
+            [
+                "912037209aedf6b8",
+                "9240f4adddf5a521"
+            ]
+        ]
+    },
+    {
+        "id": "912037209aedf6b8",
+        "type": "postgresql",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "query": "SELECT * FROM arcondicionado_alunos\nWHERE matricula = $content\nAND (id_chat IS NULL OR id_chat = '' OR id_chat = 'None')",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1810,
+        "y": 640,
+        "wires": [
+            [
+                "07197df5467861c0",
+                "27df00a541b196f6"
+            ]
+        ]
+    },
+    {
+        "id": "07197df5467861c0",
+        "type": "switch",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 2050,
+        "y": 640,
+        "wires": [
+            [
+                "28ad35d641d9d33f"
+            ],
+            [
+                "21bac615058e9c4c"
+            ]
+        ]
+    },
+    {
+        "id": "1199e96eb83f66a7",
+        "type": "postgresql",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "query": "UPDATE arcondicionado_alunos\nSET id_chat = $id_chat\nWHERE matricula = $matricula;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 2630,
+        "y": 600,
+        "wires": [
+            [
+                "9d7b0b80bbb29fae",
+                "5b346c0228285651"
+            ]
+        ]
+    },
+    {
+        "id": "21bac615058e9c4c",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Verifique se digitou corretamente a matrícula.\",\n    \"chatId\": \"{{global.id_chat_cadastro}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 2320,
+        "y": 760,
+        "wires": [
+            [
+                "620661cba9a58a09",
+                "99a2924b1529dcd9"
+            ]
+        ]
+    },
+    {
+        "id": "620661cba9a58a09",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2530,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cc10de18611ea761",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "caso exista a matrícula enviada e ela não tenha chat id",
+        "info": "",
+        "x": 2400,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "67fa3eda7b055a62",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "adicionar duas verificações: se não existe a matrícula e se tal matrícula já não está com chatId",
+        "info": "",
+        "x": 2300,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "9cc1327f5bd3b3e0",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "checar nomes das colunas",
+        "info": "",
+        "x": 2310,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "0eccd751d8a9def6",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 3310,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9d7b0b80bbb29fae",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Cadastro realizado com sucesso!\",\n    \"chatId\": \"{{global.id_chat_cadastro}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 2820,
+        "y": 600,
+        "wires": [
+            [
+                "d5e8b98983d4275e",
+                "73b65b6261c0df14"
+            ]
+        ]
+    },
+    {
+        "id": "7ac39bf9309e5e93",
+        "type": "switch",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "property": "ocorrendoVotacao",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1090,
+        "y": 940,
+        "wires": [
+            [
+                "1a9c73c6bd5f97f6",
+                "9a2dbd4f8771b4ca"
+            ],
+            [
+                "f1e7b8efbef2c85b"
+            ]
+        ]
+    },
+    {
+        "id": "673b613e7d2955e6",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1520,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "ecd37f182b6f0820",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "está ocorrendo início da votação --> recebeu a temperatura",
+        "info": "",
+        "x": 1590,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "a7571b0cc13f3c91",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "realizar a query gigante",
+        "info": "",
+        "x": 2000,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "cf4d0d6604b61a19",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Alguém iniciou uma votação para alterar a temperatura da sala de aula. Digite para qual valor deseja mudar, em Celsius.\",\n    \"chatId\": \"{{payload}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 2620,
+        "y": 960,
+        "wires": [
+            [
+                "5aeb5cab061ef682",
+                "e277dc2115e5f03d"
+            ]
+        ]
+    },
+    {
+        "id": "5aeb5cab061ef682",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2830,
+        "y": 960,
+        "wires": [
+            [
+                "e3791416ec360942",
+                "49b237b2fc5cbf34",
+                "6d937ed07ebdcaf4"
+            ]
+        ]
+    },
+    {
+        "id": "e3791416ec360942",
+        "type": "trigger",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "op1": "",
+        "op2": "Votação acabou!!! ",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "1",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 3150,
+        "y": 960,
+        "wires": [
+            [
+                "67f428cd5e0933b1",
+                "f38c382fc4591a82",
+                "7412aea9f97706a9",
+                "03216a7c1385bf10"
+            ]
+        ]
+    },
+    {
+        "id": "f9aabaed24d64863",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 1",
+        "func": "global.set(\"ocorrendoVotacao\", true);\n\nmsg.payload = {\n    content: \"Digite a temperatura para a qual deseja alterar. Escreva a temperatura em Celsius.\",\n    chatId: msg.payload.chatId, // ID do chat/grupo\n    type: \"message\",\n    options: {\n        reply_markup: {\n            remove_keyboard: true\n        }\n    }\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 160,
+        "wires": [
+            [
+                "da3bbc97f29f6a6c",
+                "5dc07ea079756170",
+                "d75a6cdddab1d459"
+            ]
+        ]
+    },
+    {
+        "id": "f38c382fc4591a82",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 2",
+        "func": "let ids_chats = [];\nlet respostas = global.get(\"votacao_respostas\");\nconsole.log(respostas);\n\nfor(let i = 0; i < respostas.length; i++)\n{\n    ids_chats.push({\n        chat_id: respostas[i].id_chat,\n        mensagem: msg.payload\n        });\n    console.log(respostas[i].id_chat);\n}\n\nconsole.log(ids_chats);\nmsg.payload = ids_chats;\n \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3540,
+        "y": 1340,
+        "wires": [
+            [
+                "89735c922dfc2c0a",
+                "54f72ccdcbe6370c"
+            ]
+        ]
+    },
+    {
+        "id": "6df0b0e2b4be524b",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 4",
+        "func": "global.set(\"chat_origem\", String(msg.payload.chatId));\nconsole.log(String(msg.payload.chatId));\nconsole.log(msg.payload.chatId);\n\nglobal.set(\"temperatura\", Number(msg.payload.content));\nconsole.log(Number(msg.payload.content));\nconsole.log(msg.payload.content);\n\n\nconst dias = [\n    \"Domingo\", \n    \"Segunda\", \n    \"Terça\", \n    \"Quarta\", \n    \"Quinta\", \n    \"Sexta\", \n    \"Sábado\"\n];\nconst hoje = new Date();\nconst diaDaSemana = dias[hoje.getDay()]; \n\nmsg.payload.semana = diaDaSemana;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1520,
+        "y": 940,
+        "wires": [
+            [
+                "a7042acfd5e66bbb",
+                "5b4ae0fbe859147c"
+            ]
+        ]
+    },
+    {
+        "id": "2e5bebb976809ffa",
+        "type": "postgresql",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "query": "SELECT\n    t4.id_chat,\n    t4.nome\nFROM\n    arcondicionado_alunos AS t1\nJOIN\n    arcondicionado_alunos_aulas AS t2 ON t1.matricula = t2.matricula \nJOIN\n    arcondicionado_aulas_horas AS t3 ON t2.aula = t3.aula AND t2.turma = t3.turma \nJOIN\n    arcondicionado_alunos_aulas AS t_outras_aulas ON t3.aula = t_outras_aulas.aula AND t3.turma = t_outras_aulas.turma\nJOIN\n    arcondicionado_alunos AS t4 ON t_outras_aulas.matricula = t4.matricula\nWHERE\n    t1.id_chat = $chatId\nAND\n    t3.dia = $semana\nAND\n    t4.id_chat != $chatId\nAND\n    t4.id_chat IS NOT NULL\nAND\n    t4.id_chat != '';",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 2010,
+        "y": 960,
+        "wires": [
+            [
+                "39c45d91e68629b7",
+                "5fab59367b3dcd14"
+            ]
+        ]
+    },
+    {
+        "id": "5fab59367b3dcd14",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 5",
+        "func": "let alunos = []; \nlet respostas_alunos = [{id_chat: global.get(\"chat_origem\"), temperatura_votada: global.get(\"temperatura\")}];\n\nfor (let i = 0; i < msg.payload.length; i++)\n{\n    alunos.push(msg.payload[i].id_chat);\n    console.log(msg.payload[i].id_chat);\n    \n    respostas_alunos.push({\n        id_chat: msg.payload[i].id_chat,\n        temperatura_votada: -1\n    })\n}\n\nconsole.log(respostas_alunos);\n\nglobal.set(\"votacao_esperados\", alunos);\n\nglobal.set(\"votacao_respostas\", respostas_alunos);\n\nmsg.payload = alunos;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2240,
+        "y": 960,
+        "wires": [
+            [
+                "eba3485bb136dc4c",
+                "21f67f1d429e815b"
+            ]
+        ]
+    },
+    {
+        "id": "a24792382133ce9c",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "setar as variáveis globais das listas dos ids",
+        "info": "",
+        "x": 2260,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "21f67f1d429e815b",
+        "type": "split",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 2430,
+        "y": 960,
+        "wires": [
+            [
+                "74cbd8cdd96524e3",
+                "cf4d0d6604b61a19"
+            ]
+        ]
+    },
+    {
+        "id": "27df00a541b196f6",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 17",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2020,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "9240f4adddf5a521",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 18",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1800,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "5b346c0228285651",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 19",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2800,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "99a2924b1529dcd9",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2520,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "a14a9b9fe6b4314c",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2460,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "d5e8b98983d4275e",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "ocorrendoCadastro",
+                "pt": "global",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "id_chat_cadastro",
+                "pt": "global",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 3060,
+        "y": 600,
+        "wires": [
+            [
+                "0eccd751d8a9def6",
+                "31d1c1488d8b3518"
+            ]
+        ]
+    },
+    {
+        "id": "31d1c1488d8b3518",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3300,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "73b65b6261c0df14",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 23",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3060,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "06a2673acf90c6ca",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "id_chat_atual",
+                "pt": "global",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.type",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.messageId",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.date",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1320,
+        "y": 480,
+        "wires": [
+            [
+                "0fb2e6ca95fa4e23",
+                "3c3867a4641e9f8e"
+            ]
+        ]
+    },
+    {
+        "id": "3c3867a4641e9f8e",
+        "type": "postgresql",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "query": "SELECT\n    t4.temperatura,\n    t4.data_hora,\n    t3.sala\nFROM\n    arcondicionado_alunos AS t1\nJOIN\n    arcondicionado_alunos_aulas AS t2 ON t1.matricula = t2.matricula\nJOIN\n    arcondicionado_aulas_horas AS t3 ON t2.aula = t3.aula AND t2.turma = t3.turma\nJOIN\n    arcondicionado_salas_temperatura AS t4 ON t3.sala = t4.sala\nWHERE\n    t1.id_chat = $chatId\nAND\n    t3.dia = $semana\nORDER BY\n    t4.data_hora DESC\nLIMIT 1;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1550,
+        "y": 480,
+        "wires": [
+            [
+                "38a520b9b465462f"
+            ]
+        ]
+    },
+    {
+        "id": "0fb2e6ca95fa4e23",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1500,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "41af30a8f36ba2ef",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1940,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "850c9fd9fdf6892b",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "id_chat_atual",
+                "pt": "global",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2460,
+        "y": 360,
+        "wires": [
+            [
+                "a6587252dbadb75b"
+            ]
+        ]
+    },
+    {
+        "id": "62b6ffb3ea40d50e",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 8",
+        "func": "const dias = [\n    \"Domingo\", \n    \"Segunda\", \n    \"Terça\", \n    \"Quarta\", \n    \"Quinta\", \n    \"Sexta\", \n    \"Sábado\"\n];\nconst hoje = new Date();\nconst diaDaSemana = dias[hoje.getDay()]; \n\nmsg.payload.semana = diaDaSemana;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 480,
+        "wires": [
+            [
+                "06a2673acf90c6ca",
+                "07155c4ff557ae67"
+            ]
+        ]
+    },
+    {
+        "id": "07155c4ff557ae67",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "38a520b9b465462f",
+        "type": "switch",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1770,
+        "y": 400,
+        "wires": [
+            [
+                "41af30a8f36ba2ef",
+                "069cdc28b9382013"
+            ],
+            [
+                "10050acd225fa1d6",
+                "f1048afca5a1f8ae"
+            ]
+        ]
+    },
+    {
+        "id": "10050acd225fa1d6",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Ocorreu um erro durante a consulta da temperatura da sua sala atual. Possivelmente você não está em nenhuma aula no momento.\",\n    \"chatId\": \"{{global.id_chat_atual}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 2000,
+        "y": 440,
+        "wires": [
+            [
+                "045aa4e01cbe1b62",
+                "9c3fc2177f1bc9b8"
+            ]
+        ]
+    },
+    {
+        "id": "a2ed637948421792",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2570,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "045aa4e01cbe1b62",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2260,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "9c3fc2177f1bc9b8",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "id_chat_atual",
+                "pt": "global",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2280,
+        "y": 440,
+        "wires": [
+            [
+                "a2ed637948421792"
+            ]
+        ]
+    },
+    {
+        "id": "f1048afca5a1f8ae",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 28",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2000,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "c80afc91d6c4cade",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "pq as variáveis não aparecem?",
+        "info": "",
+        "x": 2690,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "069cdc28b9382013",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload[0]",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2020,
+        "y": 360,
+        "wires": [
+            [
+                "78188eb2f9ddb351",
+                "f39047ae39d02a4e"
+            ]
+        ]
+    },
+    {
+        "id": "f39047ae39d02a4e",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 29",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2200,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "b876a3095f7d3ed5",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload[0]",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1960,
+        "y": 1800,
+        "wires": [
+            [
+                "0f2440fe5fc2fef5",
+                "322d27d347525c5e"
+            ]
+        ]
+    },
+    {
+        "id": "322d27d347525c5e",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 30",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2160,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "a7042acfd5e66bbb",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 31",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1720,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "5b4ae0fbe859147c",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.type",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.messageId",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.date",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1780,
+        "y": 960,
+        "wires": [
+            [
+                "2e5bebb976809ffa",
+                "ef2bfd2db35cea16"
+            ]
+        ]
+    },
+    {
+        "id": "ef2bfd2db35cea16",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 32",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1980,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "39c45d91e68629b7",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 33",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2220,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "eba3485bb136dc4c",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 34",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2420,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "74cbd8cdd96524e3",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 35",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2620,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "45dc074f694fbbce",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "lógica de pegar os valores digitados e pegar a méida e pipipopop",
+        "info": "",
+        "x": 1710,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "e277dc2115e5f03d",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 36",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2820,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "1a9c73c6bd5f97f6",
+        "type": "switch",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "property": "chat_origem",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1330,
+        "y": 960,
+        "wires": [
+            [
+                "6df0b0e2b4be524b",
+                "673b613e7d2955e6"
+            ],
+            [
+                "51782ccaa9cc2a2b",
+                "7dd22f18811306b3"
+            ]
+        ]
+    },
+    {
+        "id": "51782ccaa9cc2a2b",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 6",
+        "func": "let temperatura_votada = Number(msg.payload.content);\nconsole.log(temperatura_votada);\n\nlet respostas = global.get(\"votacao_respostas\");\nconsole.log(respostas);\n\nlet id_aluno = -1;\nfor(let i = 0; i < respostas.length; i++)\n{\n    if (respostas[i].id_chat == String(msg.payload.chatId))\n    {\n        id_aluno = i;\n    }\n}\n\nif (id_aluno == -1)\n{\n    return null;\n}\n\nconsole.log(id_aluno);\n\nrespostas[id_aluno].temperatura_votada = temperatura_votada;\n\nglobal.set(\"votacao_respostas\", respostas);\nconsole.log(respostas);\n\nconsole.log(respostas[id_aluno].temperatura_votada);\n\nlet temperatura_soma = 0;\nlet total_votos = 0;\nfor(let i = 0; i < respostas.length; i++)\n{\n    if (respostas[i].temperatura_votada != -1)\n    {\n        temperatura_soma += respostas[i].temperatura_votada\n        total_votos++;\n        console.log(respostas[i].temperatura_votada);\n    }\n}\nconsole.log(\"Temperatura somada: \" + temperatura_soma);\n\nconsole.log(\"Temperatura média: \" + temperatura_soma / total_votos);\n\nmsg.payload.temperatura_media = temperatura_soma / total_votos;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1520,
+        "y": 1200,
+        "wires": [
+            [
+                "c85369dcd9d2017a"
+            ]
+        ]
+    },
+    {
+        "id": "7dd22f18811306b3",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 15",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1520,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "9a2dbd4f8771b4ca",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "c85369dcd9d2017a",
+        "type": "switch",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1730,
+        "y": 1200,
+        "wires": [
+            [
+                "66686144166796ce",
+                "ab3ccc30367fef5b"
+            ],
+            [
+                "f1e7b8efbef2c85b"
+            ]
+        ]
+    },
+    {
+        "id": "438cbd717f6e7b06",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "se a pessoa está entre os ids esperados para a votação",
+        "info": "",
+        "x": 1680,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "66686144166796ce",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 37",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1980,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "95d93b4bd2f32f66",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2230,
+        "y": 1260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "33df91d5283704f5",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"A temperatura média atual com os votos é {{payload.temperatura_media}}!\",\n    \"chatId\": \"{{payload.chatId}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 2000,
+        "y": 1260,
+        "wires": [
+            [
+                "95d93b4bd2f32f66"
+            ]
+        ]
+    },
+    {
+        "id": "49b237b2fc5cbf34",
+        "type": "trigger",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "op1": "",
+        "op2": "Faltam 10 segundos para o fim da votação",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "50",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 3090,
+        "y": 1120,
+        "wires": [
+            [
+                "704799414b38da4e",
+                "f38c382fc4591a82"
+            ]
+        ]
+    },
+    {
+        "id": "6d937ed07ebdcaf4",
+        "type": "trigger",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "op1": "",
+        "op2": "Faltam 30 segundos para o fim da votação",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "30",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 3070,
+        "y": 1280,
+        "wires": [
+            [
+                "44e5500fee98e3b5",
+                "f38c382fc4591a82"
+            ]
+        ]
+    },
+    {
+        "id": "67f428cd5e0933b1",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 38",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3320,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "704799414b38da4e",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 39",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3260,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "44e5500fee98e3b5",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 40",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3300,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "0f0fa50179afe5f6",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"{{payload.mensagem}}\",\n    \"chatId\": \"{{payload.chat_id}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 3900,
+        "y": 1340,
+        "wires": [
+            [
+                "210c68bb0d2616e5"
+            ]
+        ]
+    },
+    {
+        "id": "210c68bb0d2616e5",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 4110,
+        "y": 1340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "54f72ccdcbe6370c",
+        "type": "split",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 3730,
+        "y": 1340,
+        "wires": [
+            [
+                "0f0fa50179afe5f6",
+                "69fa493b6ab5cc11"
+            ]
+        ]
+    },
+    {
+        "id": "89735c922dfc2c0a",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 41",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3720,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "69fa493b6ab5cc11",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 42",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3940,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "acbba9ae31db5cd4",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 7",
+        "func": "let respostas = global.get(\"votacao_respostas\");\n\nlet temperatura_soma = 0;\nlet total_votos = 0;\nfor(let i = 0; i < respostas.length; i++)\n{\n    if (respostas[i].temperatura_votada != -1)\n    {\n        temperatura_soma += respostas[i].temperatura_votada\n        total_votos++;\n        console.log(respostas[i].temperatura_votada);\n    }\n}\nconsole.log(\"Temperatura somada: \" + temperatura_soma);\n\nconsole.log(\"Temperatura média: \" + temperatura_soma / total_votos);\n\nlet ids_chats = [];\nconsole.log(respostas);\n\nfor(let i = 0; i < respostas.length; i++)\n{\n    ids_chats.push({\n        chat_id: respostas[i].id_chat,\n        mensagem: \"Resultado final: \" + temperatura_soma / total_votos + \"° C!\"\n        });\n    console.log(respostas[i].id_chat);\n}\n\nconsole.log(ids_chats);\nmsg.payload = ids_chats;\n\nglobal.set(\"votacao_esperados\", []);\n\nglobal.set(\"votacao_respostas\", []);\n\nglobal.set(\"chat_origem\", '');\n\nglobal.set(\"temperatura\", -1);\n\nglobal.set(\"temperatura_final_votacao\", -1);\n \nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3620,
+        "y": 960,
+        "wires": [
+            [
+                "677570a3c75c88d5",
+                "97c608ffa7344dce"
+            ]
+        ]
+    },
+    {
+        "id": "ab3ccc30367fef5b",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 9",
+        "func": "let ids_chats = [];\nlet respostas = global.get(\"votacao_respostas\");\nconsole.log(respostas);\n\nfor(let i = 0; i < respostas.length; i++)\n{\n    ids_chats.push({\n        chat_id: respostas[i].id_chat,\n        mensagem: \"A temperatura média atual com os votos é \" + msg.payload.temperatura_media + \"!\"\n        });\n    console.log(respostas[i].id_chat);\n}\n\nconsole.log(ids_chats);\nmsg.payload = ids_chats;\n \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2000,
+        "y": 1200,
+        "wires": [
+            [
+                "ec7b3630ab869aec"
+            ]
+        ]
+    },
+    {
+        "id": "ec7b3630ab869aec",
+        "type": "split",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 2190,
+        "y": 1200,
+        "wires": [
+            [
+                "e02c7c574d6f70de"
+            ]
+        ]
+    },
+    {
+        "id": "e02c7c574d6f70de",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"{{payload.mensagem}}\",\n    \"chatId\": \"{{payload.chat_id}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 2360,
+        "y": 1200,
+        "wires": [
+            [
+                "2522c910c82f93e3"
+            ]
+        ]
+    },
+    {
+        "id": "2522c910c82f93e3",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2570,
+        "y": 1200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3e188c8ac3eae7e6",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"{{payload.mensagem}}\",\n    \"chatId\": \"{{payload.chat_id}}\",\n    \"type\": \"message\"\n}",
+        "output": "json",
+        "x": 3980,
+        "y": 960,
+        "wires": [
+            [
+                "98740f438dde0d1d"
+            ]
+        ]
+    },
+    {
+        "id": "98740f438dde0d1d",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 4190,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "97c608ffa7344dce",
+        "type": "split",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 3810,
+        "y": 960,
+        "wires": [
+            [
+                "3e188c8ac3eae7e6",
+                "9571426ab2129638"
+            ]
+        ]
+    },
+    {
+        "id": "677570a3c75c88d5",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 43",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3800,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "9571426ab2129638",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 44",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 4020,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "7412aea9f97706a9",
+        "type": "delay",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 3420,
+        "y": 960,
+        "wires": [
+            [
+                "acbba9ae31db5cd4"
+            ]
+        ]
+    },
+    {
+        "id": "fd82c6614e05e832",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.type",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.content",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.options",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1600,
+        "y": 220,
+        "wires": [
+            [
+                "e3bf1101bfa89177",
+                "edcc900aa6f2b0c5"
+            ]
+        ]
+    },
+    {
+        "id": "edcc900aa6f2b0c5",
+        "type": "postgresql",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "query": "SELECT\n    t3.sala\nFROM\n    arcondicionado_alunos AS t1\nJOIN\n    arcondicionado_alunos_aulas AS t2 ON t1.matricula = t2.matricula\nJOIN\n    arcondicionado_aulas_horas AS t3 ON t2.aula = t3.aula AND t2.turma = t3.turma\nWHERE\n    t1.id_chat = $chatId\nAND\n    t3.dia = $semana\nLIMIT 1;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1910,
+        "y": 160,
+        "wires": [
+            [
+                "3f378c618d0f89d1",
+                "1bda5ead74d481b8"
+            ]
+        ]
+    },
+    {
+        "id": "e3bf1101bfa89177",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 45",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1900,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "03216a7c1385bf10",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 10",
+        "func": "let respostas = global.get(\"votacao_respostas\");\n\nlet temperatura_soma = 0;\nlet total_votos = 0;\nfor(let i = 0; i < respostas.length; i++)\n{\n    if (respostas[i].temperatura_votada != -1)\n    {\n        temperatura_soma += respostas[i].temperatura_votada\n        total_votos++;\n        console.log(respostas[i].temperatura_votada);\n    }\n}\nconsole.log(\"Temperatura somada: \" + temperatura_soma);\n\nconsole.log(\"Temperatura média: \" + temperatura_soma / total_votos);\n\nmsg.queryParameters.temperatura_media = temperatura_soma / total_votos;\nconsole.log(msg.queryParameters.temperatura_media);\nmsg.queryParameters.sala = global.get('sala_votacao');\nconsole.log(msg.queryParameters.sala);\n\nglobal.set('sala_votacao', '');\nglobal.set(\"temperatura_final_votacao\", temperatura_soma / total_votos);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3550,
+        "y": 1120,
+        "wires": [
+            [
+                "51e6196f46e5b2f1",
+                "88d03eb2600f9abf"
+            ]
+        ]
+    },
+    {
+        "id": "51e6196f46e5b2f1",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 46",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3760,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "d75a6cdddab1d459",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 11",
+        "func": "const dias = [\n    \"Domingo\", \n    \"Segunda\", \n    \"Terça\", \n    \"Quarta\", \n    \"Quinta\", \n    \"Sexta\", \n    \"Sábado\"\n];\nconst hoje = new Date();\nconst diaDaSemana = dias[hoje.getDay()]; \n\nmsg.payload.semana = diaDaSemana;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1330,
+        "y": 260,
+        "wires": [
+            [
+                "fd82c6614e05e832"
+            ]
+        ]
+    },
+    {
+        "id": "3f378c618d0f89d1",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 47",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2180,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "bd208b6aecbfc317",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.type",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.messageId",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.date",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1220,
+        "y": 1420,
+        "wires": [
+            [
+                "3d4d0b2a714a069b",
+                "95a18f3cc3db4caa"
+            ]
+        ]
+    },
+    {
+        "id": "8cd6a1a73d608162",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "Para desconectar a matrícula de um dispositivo",
+        "info": "",
+        "x": 1240,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "3d4d0b2a714a069b",
+        "type": "postgresql",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "query": "UPDATE arcondicionado_alunos\nSET id_chat = NULL\nWHERE id_chat = $chatId;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1490,
+        "y": 1420,
+        "wires": [
+            [
+                "f7377a95918ed384",
+                "9f2997b4a8c7317d"
+            ]
+        ]
+    },
+    {
+        "id": "9f2997b4a8c7317d",
+        "type": "template",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"content\": \"Dispositivo desvinculado da sua matrícula com sucesso!\",\n    \"chatId\": \"{{queryParameters.chatId}}\",\n    \"type\": \"message\",\n    \"options\": {\n        \"reply_markup\": {\n            \"remove_keyboard\": true\n        }\n    }\n}",
+        "output": "json",
+        "x": 1760,
+        "y": 1420,
+        "wires": [
+            [
+                "254cf88d02280427"
+            ]
+        ]
+    },
+    {
+        "id": "254cf88d02280427",
+        "type": "telegram sender",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "bot": "bdf46833ad9b2efe",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 2010,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1bda5ead74d481b8",
+        "type": "change",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload[0]",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "sala_votacao",
+                "pt": "global",
+                "to": "payload.sala",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2180,
+        "y": 160,
+        "wires": [
+            [
+                "23169145e706a116"
+            ]
+        ]
+    },
+    {
+        "id": "23169145e706a116",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 48",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2400,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "95a18f3cc3db4caa",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 49",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1480,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "f7377a95918ed384",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 50",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1760,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "88d03eb2600f9abf",
+        "type": "postgresql",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "query": "SELECT codigo\nFROM arcondicionado_aparelhos\nWHERE sala = $sala;",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 3770,
+        "y": 1120,
+        "wires": [
+            [
+                "d263cd64333f4e2d",
+                "323156b2493b8d1d"
+            ]
+        ]
+    },
+    {
+        "id": "d263cd64333f4e2d",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 51",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3980,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "323156b2493b8d1d",
+        "type": "split",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 3970,
+        "y": 1120,
+        "wires": [
+            [
+                "b15d92aefc8b8ad4",
+                "5311582ed7f5cb8b"
+            ]
+        ]
+    },
+    {
+        "id": "5311582ed7f5cb8b",
+        "type": "function",
+        "z": "3edf58e19db34b7b",
+        "name": "function 12",
+        "func": "msg.topic = 'arcondicionado/dispositivos/' + msg.payload.codigo;\n\nmsg.payload = global.get('temperatura_final_votacao');\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4170,
+        "y": 1120,
+        "wires": [
+            [
+                "b32de895b149c3f3",
+                "1460b874a2ccbd25"
+            ]
+        ]
+    },
+    {
+        "id": "b32de895b149c3f3",
+        "type": "mqtt out",
+        "z": "3edf58e19db34b7b",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fa7923ade7c363e8",
+        "x": 4350,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "b15d92aefc8b8ad4",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 52",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 4160,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "1460b874a2ccbd25",
+        "type": "debug",
+        "z": "3edf58e19db34b7b",
+        "name": "debug 53",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 4360,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "e99d971e2643c117",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "como está o número do dispositivo? string ou int",
+        "info": "",
+        "x": 4200,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "6459aeca89b70806",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "verificar nomes",
+        "info": "",
+        "x": 3760,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "c8c41c43fd45ec99",
+        "type": "comment",
+        "z": "3edf58e19db34b7b",
+        "name": "verificar!!",
+        "info": "",
+        "x": 4480,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "bdf46833ad9b2efe",
+        "type": "telegram bot",
+        "botname": "bot_arcondicionado",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "1251550e75985b59",
+        "type": "postgreSQLConfig",
+        "name": "PostgreSQL",
+        "host": "postgresql.janks.dev.br",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "projeto_b",
+        "databaseFieldType": "str",
+        "ssl": "true",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "iot",
+        "userFieldType": "str",
+        "password": "pepcon-garton",
+        "passwordFieldType": "str"
+    },
+    {
+        "id": "fa7923ade7c363e8",
+        "type": "mqtt-broker",
+        "name": "MQTT",
+        "broker": "mqtt.janks.dev.br",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "5",
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

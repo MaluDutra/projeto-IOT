@@ -1,0 +1,155 @@
+[
+    {
+        "id": "f5494b868dcdd419",
+        "type": "tab",
+        "label": "Fluxo 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fdce9d9a69350e5b",
+        "type": "mqtt in",
+        "z": "f5494b868dcdd419",
+        "name": "",
+        "topic": "arcondicionado/enviaDados",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "fa7923ade7c363e8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 480,
+        "y": 360,
+        "wires": [
+            [
+                "06e0abfb0d27759e"
+            ]
+        ]
+    },
+    {
+        "id": "06e0abfb0d27759e",
+        "type": "change",
+        "z": "f5494b868dcdd419",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "queryParameters",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "queryParameters.data_hora",
+                "pt": "msg",
+                "to": "iso",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 360,
+        "wires": [
+            [
+                "0ade3c82e288a036",
+                "263f49c01087cb97"
+            ]
+        ]
+    },
+    {
+        "id": "0ade3c82e288a036",
+        "type": "postgresql",
+        "z": "f5494b868dcdd419",
+        "name": "arcondicionado_salas_temperatura",
+        "query": "INSERT INTO arcondicionado_salas_temperatura (sala, temperatura, data_hora)\nVALUES ($sala, $temperatura, $data_hora);",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1160,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "263f49c01087cb97",
+        "type": "postgresql",
+        "z": "f5494b868dcdd419",
+        "name": "arcondicionado_aparelhos",
+        "query": "UPDATE arcondicionado_aparelhos\nSET qualidade = $qualidade\nWHERE sala = $sala AND codigo = $codigo;\n",
+        "postgreSQLConfig": "1251550e75985b59",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1140,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fa7923ade7c363e8",
+        "type": "mqtt-broker",
+        "name": "MQTT",
+        "broker": "mqtt.janks.dev.br",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "5",
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1251550e75985b59",
+        "type": "postgreSQLConfig",
+        "name": "PostgreSQL",
+        "host": "postgresql.janks.dev.br",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "projeto_b",
+        "databaseFieldType": "str",
+        "ssl": "true",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "iot",
+        "userFieldType": "str",
+        "password": "pepcon-garton",
+        "passwordFieldType": "str"
+    }
+]
