@@ -7,7 +7,7 @@
 #include <MQTT.h>
 #include <GxEPD2_BW.h> 
 #include <U8g2_for_Adafruit_GFX.h> 
-
+#include <ArduinoJson.h>
 
 /*=================== USER AREA ========================*/
 String id_dispositivo = "1"; // para qualidade do ar
@@ -17,7 +17,7 @@ U8G2_FOR_ADAFRUIT_GFX fontes;
 GxEPD2_290_T94_V2 modeloTela(10, 14, 15, 16); 
 GxEPD2_BW<GxEPD2_290_T94_V2, GxEPD2_290_T94_V2::HEIGHT> tela(modeloTela);
 
-#define BUZZZER_PIN  7
+#define BUZZZER_PIN  1
 
 WiFiClientSecure conexaoSegura; 
 MQTTClient mqtt(1000);
@@ -180,8 +180,49 @@ void desenhaDados(float temperatura, float umidade, int qualidadeDoAr)
     tela.drawCircle(230, 95, 15, GxEPD_BLACK);
     tela.fillRect(210, 70, 40, 30, GxEPD_WHITE);
   }
-  
+
+  Serial.println("Desenhando dados!");
   tela.display(true);
+}
+
+int calculaQualidadeDoAr(float co2, float tvoc, float pm25_mgm3, float pm1_mgm3)
+{
+  // A variável 'iqa' começará no nível Bom (2) e será rebaixada se necessário.
+  int iqa = 2; // 2 = Bom
+  
+  // --- Limites dos Poluentes (Mantidos da implementação anterior) ---
+  
+  // 1. eCO2: Ruim > 1000, Médio 801-1000
+  if (co2 > 1000.0) {
+    iqa = 0; 
+  } else if (co2 > 800.0 && iqa > 0) {
+    iqa = 1; 
+  }
+
+  // 2. TVOC: Ruim > 500, Médio 251-500
+  if (tvoc > 500.0) {
+    iqa = 0; 
+  } else if (tvoc > 250.0 && iqa > 0) {
+    iqa = min(iqa, 1); 
+  }
+
+  // 3. PM2.5 (em mg/m³): Ruim > 0.060, Médio 0.031-0.060
+  if (pm25_mgm3 > 0.060) {
+    iqa = 0; 
+  } else if (pm25_mgm3 > 0.030 && iqa > 0) {
+    iqa = min(iqa, 1); 
+  }
+  
+  // --- Novos Limites de Conforto/Poluentes ---
+  // 6. PM1.0 (Convertido para µg/m³): Ruim > 35, Médio 16-35
+  float pm1_ugm3 = pm1_mgm3 * 1000.0;
+  if (pm1_ugm3 > 35.0) {
+    iqa = min(iqa, 0); // Ruim
+  } else if (pm1_ugm3 > 15.0 && iqa > 0) {
+    iqa = min(iqa, 1); // Médio
+  }
+
+  return iqa;
 }
 
 void setup() 
@@ -241,7 +282,6 @@ void setup()
   fontes.setForegroundColor(GxEPD_BLACK);
 
   desenhaEsqueleto();
-  desenhaDados(20.0f, 10.0f, 0);
 
   // WIFI e MQTT
   reconectarWiFi(); 
@@ -310,18 +350,30 @@ void loop()
     Serial.printf("temperatura: %.2f, umildade: %.2f, CO2: %.0f, TVOC: %.0f\n", temperatura, umidade, eCO2, TVOC);
     Serial.printf("DSM501A PM2.5:\nLow Ratio: %.0f, mg/m³: %.4f, pcs/0.283L: %.2f\n", low_percent_PM25, c_mgm3_PM25, c_pcs283ml_PM25);
     Serial.printf("DSM501A PM1.0:\nLow Ratio: %.0f, mg/m³: %.4f, pcs/0.283L: %.2f\n\n", low_percent_PM1, c_mgm3_PM1, c_pcs283ml_PM1);
-    instanteAnterior = instanteAtual; 
 
-    // TODO fazer métrica de qualidade do ar
-    String QualidadeDoAr = "Bom";
+    int qualidadeDoAr = calculaQualidadeDoAr(eCO2, TVOC, c_mgm3_PM25, c_mgm3_PM1);
+    String qualidade_str;
+    if (qualidadeDoAr == 0) qualidade_str = "Ruim";
+    else if (qualidadeDoAr == 1) qualidade_str = "Regular";
+    else qualidade_str = "Bom";
 
-    //mqtt.publish("dispositivo/" + id_dispositivo, QualidadeDoAr);
-    //mqtt.publish("sala/" + sala, String(temperatura));
+    JsonDocument dados;
+    dados["codigo"] = id_dispositivo;
+    dados["sala"] = sala;
+    dados["temperatura"] = temperatura;
+    dados["qualidade"] = qualidade_str;
 
-    mqtt.publish("enviaDados/", ""); // TODO serializar dados: "dispositivo, sala, temperatura, qualidadeDoAr"
+    String dados_out;
+    serializeJson(dados, dados_out);
 
+    mqtt.publish("enviaDados", dados_out); 
+    Serial.println(dados_out);
+
+    desenhaEsqueleto();
+    desenhaDados(temperatura,umidade, qualidadeDoAr);
 
     apitaBuzzer();
+    instanteAnterior = instanteAtual; 
   }
  
   mqtt.loop();
