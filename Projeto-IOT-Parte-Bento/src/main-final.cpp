@@ -550,7 +550,7 @@ void loop()
       qualidade_str = "Bom";
 
     JsonDocument dados;
-    dados["codigo"] = id_dispositivo;
+    dados["codigo"] = String(num_dispositivo);
     dados["sala"] = sala;
     dados["temperatura"] = temperatura;
     dados["qualidade"] = qualidade_str;
