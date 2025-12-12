@@ -313,7 +313,7 @@ CREATE TABLE salas_temperatura (
 
 ### Conexão com o Sistema
 
-- **Servidor Flask**: Utiliza SQLAlchemy para ORM
+- **Servidor Flask**: Utiliza psycopg para ORM
 - **Node-RED**: Conexão direta via nó PostgreSQL
 - **Grafana**: Data source PostgreSQL para dashboards
 
@@ -366,15 +366,28 @@ CREATE TABLE salas_temperatura (
 
 ### Dashboard de Manutenção
 
-![Dashboard Grafana - Manutenção](docs/images/dashboard-maintenance.png)
+![Dashboard Grafana - Manutenção](images/dashboard-maintenance.png)
 
 *Indicadores de qualidade do ar e alertas para manutenção preventiva.*
 
 ### Interface do Servidor de Cadastros
 
-![Servidor Flask - Cadastros](docs/images/server-interface.png)
+![Servidor Flask - Cadastros](images/server-interface.png)
 
 *Interface web para gerenciamento de alunos, turmas, salas e horários.*
+
+### Formulários de Cadastro e Edição
+
+![Servidor Flask - Formulários1](images/server-forms1.png)
+![Servidor Flask - Formulários2](images/server-forms2.png)
+
+*Interface web para cadastro e edição.*
+
+### Página de Listagem de Itens
+
+![Servidor Flask - Listagem](imagens/server-list.png)
+
+*Interface web para listar todos os itens de uma categoria.*
 
 ---
 
@@ -418,7 +431,7 @@ CREATE TABLE salas_temperatura (
 3. **Servidor Flask**: 
    ```bash
    cd python
-   pip install -r requirements.txt
+   pip install -r requirements.txt # psycopg necessita de um compilador C instalado (funcionou no linux e no windos do LET)
    python main.py
    ```
 4. **Grafana**: Configure as dashboards e data sources
