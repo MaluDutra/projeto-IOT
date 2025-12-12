@@ -26,7 +26,7 @@ GxEPD2_BW<GxEPD2_290_T94_V2, GxEPD2_290_T94_V2::HEIGHT> tela(modeloTela);
 
 WiFiClientSecure conexaoSegura;
 MQTTClient mqtt(1000);
-
+                       
 const uint16_t IRled = 38;    // pino do bagulho que envia
 IRac ar_condicionado(IRled); // classe que realiza o controle genérico do ar condicionado
 
@@ -418,21 +418,21 @@ void setup()
   if (!sensorBME.begin())
   {
     Serial.println("Erro no sensor BME");
-    while (true)
-    {
-      sleep(1);
-      Serial.println("Erro BME");
-    }
+    // while (true)
+    // {
+    //   sleep(1);
+    //   Serial.println("Erro BME");
+    // }
   }
 
   if (!sensorCCS.begin())
   {
     Serial.println("Erro no sensor CCS");
-    while (true)
-    {
-      sleep(1);
-      Serial.println("Erro CCS");
-    }
+    // while (true)
+    // {
+    //   sleep(1);
+    //   Serial.println("Erro CCS");
+    // }
   }
 
   // iniciado o DSM501

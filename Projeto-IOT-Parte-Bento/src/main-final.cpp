@@ -415,6 +415,7 @@ void setup()
 
   pinMode(BUZZZER_PIN, OUTPUT);
 
+  
   if (!sensorBME.begin())
   {
     Serial.println("Erro no sensor BME");
@@ -424,6 +425,7 @@ void setup()
       Serial.println("Erro BME");
     }
   }
+  
 
   if (!sensorCCS.begin())
   {
