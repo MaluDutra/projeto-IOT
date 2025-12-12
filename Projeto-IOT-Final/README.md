@@ -1,22 +1,3 @@
-None selected 
-
-Skip to content
-Using Gmail with screen readers
-in:sent 
-Enable desktop notifications for Gmail.
-   OK  No thanks
-1 of 219
-readme
-Summarize this email
-
-Maria Luiza Dutra <mldutraga@gmail.com>
-Attachments
-8:32 PM (4 minutes ago)
-to gugab04, Bento
-
-
- One attachment
-  •  Scanned by Gmail
 # Projeto Totem de Ar Condicionado Inteligente
 
 ## 📋 Descrição do Projeto
@@ -131,7 +112,7 @@ O Node-RED atua como o orquestrador central do sistema, processando dados, geren
 
 ### Fluxos Principais
 
-![Node-RED Flows](docs/images/nodered-flows.png)
+![Node-RED Flows](images/nodered-flows.png)
 
 *Visualização dos fluxos principais do Node-RED.*
 
@@ -282,7 +263,7 @@ CREATE TABLE salas_temperatura (
 
 ### Diagrama Esquemático
 
-![Esquemático do Circuito](docs/images/schematic.png)
+![Esquemático do Circuito](images/schematic.png)
 
 *Esquemático desenvolvido no EasyEDA mostrando as conexões do ESP32 com os sensores e módulos.*
 
@@ -290,8 +271,8 @@ CREATE TABLE salas_temperatura (
 
 - **Microcontrolador**: ESP32
 - **Sensores**: 
-  - Sensor de temperatura e umidade (DHT22/BME280)
-  - Sensor de qualidade do ar (MQ-135/CCS811)
+  - Sensor de temperatura e umidade (BME280)
+  - Sensor de qualidade do ar (CCS811)
   - Sensor de partículas (DSM501A)
   - Sensor infravermelhor para controlar o aparelho
 - **Comunicação**: Módulo Wi-Fi integrado no ESP32
@@ -304,13 +285,15 @@ CREATE TABLE salas_temperatura (
 
 ### Vista Frontal da Placa
 
-![PCB - Frente](docs/images/pcb-front.png)
+![PCB - Frente](images/pcb-front.png)
+![PCB - Frente](images/pcb-front-3D.png)
 
 *Camada superior da placa com componentes SMD e through-hole.*
 
 ### Vista Posterior da Placa
 
-![PCB - Verso](docs/images/pcb-back.png)
+![PCB - Verso](images/pcb-back.png)
+![PCB - Verso](images/pcb-back-3D.png)
 
 *Camada inferior mostrando as trilhas e plano de terra.*
 
@@ -320,7 +303,7 @@ CREATE TABLE salas_temperatura (
 
 ### Dashboard Principal - Monitoramento em Tempo Real
 
-![Dashboard Grafana - Overview](docs/images/dashboard-overview.png)
+![Dashboard Grafana - Overview](images/dashboard-overview.png)
 
 *Visão geral com métricas de temperatura e qualidade do ar em tempo real.*
 
