@@ -385,7 +385,7 @@ CREATE TABLE salas_temperatura (
 
 ### Página de Listagem de Itens
 
-![Servidor Flask - Listagem](imagens/server-list.png)
+![Servidor Flask - Listagem](images/server-list.png)
 
 *Interface web para listar todos os itens de uma categoria.*
 
