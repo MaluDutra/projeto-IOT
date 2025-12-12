@@ -230,7 +230,7 @@ O PostgreSQL é utilizado para persistir todos os dados do sistema, desde cadast
 
 ### Diagrama Entidade-Relacionamento
 
-![Diagrama ER](docs/images/database-er.png)
+![Diagrama ER](/images/database-er.png)
 
 *Modelo de dados do sistema.*
 
@@ -239,158 +239,77 @@ O PostgreSQL é utilizado para persistir todos os dados do sistema, desde cadast
 #### 1. Tabela: `alunos`
 ```sql
 CREATE TABLE alunos (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    matricula VARCHAR(20) UNIQUE NOT NULL,
-    telegram_id BIGINT UNIQUE,
-    email VARCHAR(100),
-    ativo BOOLEAN DEFAULT TRUE,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    matricula VARCHAR(8) PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    data_nascimento DATE,
+    genero VARCHAR(255),
+    id_chat VARCHAR(255)  -- ID do chat do Telegram
 );
 ```
+*Armazena informações dos alunos cadastrados no sistema, incluindo seus identificadores do Telegram para votações.*
 
 #### 2. Tabela: `salas`
 ```sql
 CREATE TABLE salas (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL,
-    capacidade INTEGER,
-    aparelho_id INTEGER REFERENCES aparelhos(id),
-    ativo BOOLEAN DEFAULT TRUE
+    codigo VARCHAR(8) PRIMARY KEY,
+    local VARCHAR(255) NOT NULL
 );
 ```
+*Cadastro das salas/ambientes onde os aparelhos estão instalados.*
 
-#### 3. Tabela: `aulas`
-```sql
-CREATE TABLE aulas (
-    id SERIAL PRIMARY KEY,
-    sala_id INTEGER REFERENCES salas(id),
-    turma_id INTEGER REFERENCES turmas(id),
-    dia_semana INTEGER CHECK (dia_semana BETWEEN 0 AND 6),
-    horario_inicio TIME NOT NULL,
-    horario_fim TIME NOT NULL,
-    ativo BOOLEAN DEFAULT TRUE
-);
-```
-
-#### 4. Tabela: `aparelhos`
+#### 3. Tabela: `aparelhos`
 ```sql
 CREATE TABLE aparelhos (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    device_id VARCHAR(50) UNIQUE NOT NULL,
-    tipo VARCHAR(50),
-    sala_id INTEGER REFERENCES salas(id),
-    status VARCHAR(20) DEFAULT 'offline',
-    ultima_atualizacao TIMESTAMP
+    codigo INT,
+    sala VARCHAR(8) REFERENCES salas(codigo),
+    qualidade VARCHAR(255), -- Ex: 'Bom', 'Ruim'
+    PRIMARY KEY (codigo, sala)
 );
 ```
+*Registro dos dispositivos/aparelhos de ar condicionado disponíveis no sistema.*
 
-#### 5. Tabela: `leituras_sensores`
+#### 4. Tabela: `aulas`
 ```sql
-CREATE TABLE leituras_sensores (
-    id SERIAL PRIMARY KEY,
-    aparelho_id INTEGER REFERENCES aparelhos(id),
-    temperatura DECIMAL(5,2),
-    umidade DECIMAL(5,2),
-    qualidade_ar INTEGER,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_timestamp (timestamp),
-    INDEX idx_aparelho (aparelho_id)
+CREATE TABLE aulas (
+    codigo VARCHAR(8) PRIMARY KEY,
+    nome VARCHAR(255)
 );
 ```
+*Registro das aulas no sistema.*
 
-#### 6. Tabela: `votacoes`
+#### 5. Tabela: `aulas_horas`
 ```sql
-CREATE TABLE votacoes (
-    id SERIAL PRIMARY KEY,
-    aula_id INTEGER REFERENCES aulas(id),
-    aparelho_id INTEGER REFERENCES aparelhos(id),
-    iniciada_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    finalizada_em TIMESTAMP,
-    resultado VARCHAR(20), -- 'ligar', 'desligar', 'empate'
-    votos_ligar INTEGER DEFAULT 0,
-    votos_desligar INTEGER DEFAULT 0,
-    status VARCHAR(20) DEFAULT 'em_andamento'
+CREATE TABLE aulas_horas (
+    aula VARCHAR(8) REFERENCES aulas(codigo),
+    turma VARCHAR(8),
+    dia VARCHAR(8),
+    sala VARCHAR(8) REFERENCES salas(codigo)
+    PRIMARY KEY (sala, turma, dia)
 );
 ```
+*Define as aulas programadas, associando salas, turmas e dias da semana*
 
-#### 7. Tabela: `votos`
+#### 6. Tabela: `alunos_aulas`
 ```sql
-CREATE TABLE votos (
-    id SERIAL PRIMARY KEY,
-    votacao_id INTEGER REFERENCES votacoes(id),
-    aluno_id INTEGER REFERENCES alunos(id),
-    voto VARCHAR(20) NOT NULL, -- 'ligar' ou 'desligar'
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(votacao_id, aluno_id) -- Um voto por aluno por votação
+CREATE TABLE alunos_aulas (
+    matricula VARCHAR(8) REFERENCES alunos(matricula),
+    aula VARCHAR(8) REFERENCES aulas_horas(aula),
+    turma VARCHAR(8) REFERENCES aulas_horas(turma),
+    PRIMARY KEY (matricula, aula, turma)
 );
 ```
+*Relaciona alunos às suas aulas, permitindo validação de participação em votações.*
 
-#### 8. Tabela: `turmas`
+#### 7. Tabela: `salas_temperatura`
 ```sql
-CREATE TABLE turmas (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    codigo VARCHAR(20) UNIQUE NOT NULL,
-    semestre VARCHAR(10),
-    ativo BOOLEAN DEFAULT TRUE
+CREATE TABLE salas_temperatura (
+    sala VARCHAR(8) REFERENCES salas(codigo),
+    temperatura FLOAT NOT NULL,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (sala, data_hora)
 );
 ```
-
-#### 9. Tabela: `alunos_turmas`
-```sql
-CREATE TABLE alunos_turmas (
-    aluno_id INTEGER REFERENCES alunos(id),
-    turma_id INTEGER REFERENCES turmas(id),
-    PRIMARY KEY (aluno_id, turma_id)
-);
-```
-
-### Consultas Importantes
-
-#### Verificar se aluno tem aula agora
-```sql
-SELECT a.*, s.nome as sala_nome, ap.device_id
-FROM aulas a
-JOIN salas s ON a.sala_id = s.id
-JOIN aparelhos ap ON s.aparelho_id = ap.id
-JOIN alunos_turmas at ON at.turma_id = a.turma_id
-WHERE at.aluno_id = $1
-  AND a.dia_semana = EXTRACT(DOW FROM CURRENT_DATE)
-  AND CURRENT_TIME BETWEEN a.horario_inicio AND a.horario_fim
-  AND a.ativo = TRUE;
-```
-
-#### Histórico de qualidade do ar
-```sql
-SELECT 
-    DATE_TRUNC('hour', timestamp) as hora,
-    AVG(temperatura) as temp_media,
-    AVG(umidade) as umid_media,
-    AVG(qualidade_ar) as qa_media,
-    MAX(qualidade_ar) as qa_max
-FROM leituras_sensores
-WHERE aparelho_id = $1
-  AND timestamp >= NOW() - INTERVAL '24 hours'
-GROUP BY hora
-ORDER BY hora;
-```
-
-#### Estatísticas de votações
-```sql
-SELECT 
-    DATE(iniciada_em) as data,
-    COUNT(*) as total_votacoes,
-    SUM(CASE WHEN resultado = 'ligar' THEN 1 ELSE 0 END) as vezes_ligado,
-    SUM(CASE WHEN resultado = 'desligar' THEN 1 ELSE 0 END) as vezes_desligado,
-    AVG(votos_ligar + votos_desligar) as participacao_media
-FROM votacoes
-WHERE aparelho_id = $1
-  AND finalizada_em IS NOT NULL
-GROUP BY data
-ORDER BY data DESC;
-```
+*Armazena histórico de leituras de temperatura por sala, coletadas pelos sensores dos aparelhos.*
 
 ### Conexão com o Sistema
 
