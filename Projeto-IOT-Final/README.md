@@ -61,7 +61,7 @@ O projeto utiliza uma arquitetura distribuída baseada em comunicação MQTT, pr
 
 ### Tecnologias Utilizadas
 
-- **Hardware**: ESP32, Sensores de qualidade do ar, Display Epaper, Sensor infravermelho e Placa de cobre para o circuito
+- **Hardware**: ESP32, Sensores de qualidade do ar (BME680, CCS811 e DSM501A), Display Epaper, Sensor infravermelho e Placa de cobre para o circuito
 - **Protocolo**: MQTT (Message Queuing Telemetry Transport)
 - **Orquestração**: Node-RED
 - **Backend**: Python Flask
