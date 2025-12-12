@@ -388,12 +388,4 @@ CREATE TABLE salas_temperatura (
 
 ---
 
-## 👥 Equipe de Desenvolvimento
-
-*[Adicione aqui informações sobre a equipe]*
-
----
-
 **Desenvolvido com ❤️ para tornar ambientes compartilhados mais confortáveis e eficientes.**
-README.md
-Displaying README.md.
