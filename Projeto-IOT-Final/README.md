@@ -132,7 +132,7 @@ O Node-RED atua como o orquestrador central do sistema, processando dados, geren
 
 ### Fluxos Principais
 
-![Node-RED Flows](docs/images/nodered-flows.png)
+![Node-RED Flows](images/nodered-flows.png)
 
 *Visualização dos fluxos principais do Node-RED.*
 
@@ -362,7 +362,7 @@ CREATE TABLE salas_temperatura (
 
 ### Dashboard Principal - Monitoramento em Tempo Real
 
-![Dashboard Grafana - Overview](docs/images/dashboard-overview.png)
+![Dashboard Grafana - Overview](images/dashboard-overview.png)
 
 *Visão geral com métricas de temperatura e qualidade do ar em tempo real.*
 
