@@ -122,7 +122,7 @@ totem/
 
 ### Configuração no ESP32
 
-O ESP32 se conecta ao broker MQTT e publica dados dos sensores a cada 30 segundos, além de subscrever aos tópicos de controle para receber comandos em tempo real.
+O ESP32 se conecta ao broker MQTT e publica dados dos sensores a cada 10 segundos, além de subscrever aos tópicos de controle para receber comandos em tempo real.
 
 ---
 
@@ -333,6 +333,7 @@ CREATE TABLE salas_temperatura (
 - **Sensores**: 
   - Sensor de temperatura e umidade (DHT22/BME280)
   - Sensor de qualidade do ar (MQ-135/CCS811)
+  - Sensor de partículas (DSM501A)
   - Sensor infravermelhor para controlar o aparelho
 - **Comunicação**: Módulo Wi-Fi integrado no ESP32
 - **Alimentação**: Regulador de tensão 5V/3.3V
@@ -371,6 +372,12 @@ CREATE TABLE salas_temperatura (
 ![Dashboard Grafana - Manutenção](images/dashboard-maintenance.png)
 
 *Indicadores de qualidade do ar e alertas para manutenção preventiva.*
+
+### Dashboard de Temperatura
+
+![Dashboard Grafana - Temperatura](images/dashboard-temperature.png)
+
+*Histórico de temperaturas.*
 
 ### Interface do Servidor de Cadastros
 
