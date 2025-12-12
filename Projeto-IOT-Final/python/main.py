@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, flash
 from dotenv import load_dotenv
-import psycopg2
+import psycopg
 import os
 
 load_dotenv()
@@ -8,8 +8,8 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = b'a secret key'
 
-conn = psycopg2.connect(
-    database = "projeto_b", 
+conn = psycopg.connect(
+    dbname = "projeto_b", 
     user = os.getenv("DB_LOGIN"), 
     host= os.getenv("DB_ADDRESS"),
     password = os.getenv("DB_PASSWORD"),
