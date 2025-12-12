@@ -27,7 +27,7 @@ GxEPD2_BW<GxEPD2_290_T94_V2, GxEPD2_290_T94_V2::HEIGHT> tela(modeloTela);
 WiFiClientSecure conexaoSegura;
 MQTTClient mqtt(1000);
 
-const uint16_t IRled = 4;    // pino do bagulho que envia
+const uint16_t IRled = 38;    // pino do bagulho que envia
 IRac ar_condicionado(IRled); // classe que realiza o controle genérico do ar condicionado
 
 Adafruit_BME680 sensorBME;
