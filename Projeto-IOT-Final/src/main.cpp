@@ -418,21 +418,21 @@ void setup()
   if (!sensorBME.begin())
   {
     Serial.println("Erro no sensor BME");
-    // while (true)
-    // {
-    //   sleep(1);
-    //   Serial.println("Erro BME");
-    // }
+    while (true)
+    {
+      sleep(1);
+      Serial.println("Erro BME");
+    }
   }
 
   if (!sensorCCS.begin())
   {
     Serial.println("Erro no sensor CCS");
-    // while (true)
-    // {
-    //   sleep(1);
-    //   Serial.println("Erro CCS");
-    // }
+    while (true)
+    {
+      sleep(1);
+      Serial.println("Erro CCS");
+    }
   }
 
   // iniciado o DSM501
@@ -494,9 +494,6 @@ void loop()
   mqtt.loop();
 
   unsigned long instanteAtual = millis();
-
-  // static float lowPM = 0;
-  // lowPM += pulseIn(pinPM25, LOW) / 1000.0;   // >2.5µm (PM2.5)
 
   if (instanteAtual > instanteAnterior + sampleTime)
   {

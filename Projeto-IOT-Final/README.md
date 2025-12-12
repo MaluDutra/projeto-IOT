@@ -1,3 +1,22 @@
+None selected 
+
+Skip to content
+Using Gmail with screen readers
+in:sent 
+Enable desktop notifications for Gmail.
+   OK  No thanks
+1 of 219
+readme
+Summarize this email
+
+Maria Luiza Dutra <mldutraga@gmail.com>
+Attachments
+8:32 PM (4 minutes ago)
+to gugab04, Bento
+
+
+ One attachment
+  •  Scanned by Gmail
 # Projeto Totem de Ar Condicionado Inteligente
 
 ## 📋 Descrição do Projeto
@@ -61,7 +80,7 @@ O projeto utiliza uma arquitetura distribuída baseada em comunicação MQTT, pr
 
 ### Tecnologias Utilizadas
 
-- **Hardware**: ESP32, Sensores de qualidade do ar (BME680, CCS811 e DSM501A), Display Epaper, Sensor infravermelho e Placa de cobre para o circuito
+- **Hardware**: ESP32, Sensores de qualidade do ar, Display Epaper, Sensor infravermelho e Placa de cobre para o circuito
 - **Protocolo**: MQTT (Message Queuing Telemetry Transport)
 - **Orquestração**: Node-RED
 - **Backend**: Python Flask
@@ -80,33 +99,13 @@ O protocolo MQTT é o núcleo da comunicação entre o hardware (ESP32) e o sist
 
 O sistema utiliza uma hierarquia organizada de tópicos MQTT para gerenciar a comunicação:
 
-# Gerado pela IA, sei lá se ta certo
 ```
-totem/
-├── sensores/
-│   ├── temperatura        # Dados de temperatura em °C
-│   ├── umidade           # Dados de umidade relativa (%)
-│   ├── qualidade_ar      # Índice de qualidade do ar (PPM)
-│   └── status            # Status geral dos sensores
-├── controle/
-│   ├── comando           # Comandos para ligar/desligar AC
-│   ├── temperatura_alvo  # Temperatura desejada
-│   └── modo              # Modo de operação (auto/manual)
-├── votacao/
-│   ├── inicio            # Início de nova votação
-│   ├── votos             # Contabilização de votos
-│   └── resultado         # Resultado da votação
-└── display/
-    ├── atualizar         # Atualização do display e-paper
-    └── mensagem          # Mensagens para exibição
+arcondicionado/
+├── dispositivos/
+│   ├── 1, 2, 3, etc.     # Envia as novas temperaturas para os dispositivos
+│   └── desconexao        # Para o dispositivo mandar seu número caso desconecte
+└── enviaDados            # Para o envio dos dados dos sensores
 ```
-
-### Broker MQTT
-
-# Conferir tbm pfvr
-- **Software**: Mosquitto MQTT Broker
-- **Porta**: 1883 (padrão) ou 8883 (TLS/SSL)
-- **Segurança**: Autenticação por usuário/senha e suporte a certificados TLS
 
 ### Exemplo de Payload
 
@@ -132,7 +131,7 @@ O Node-RED atua como o orquestrador central do sistema, processando dados, geren
 
 ### Fluxos Principais
 
-![Node-RED Flows](images/nodered-flows.png)
+![Node-RED Flows](docs/images/nodered-flows.png)
 
 *Visualização dos fluxos principais do Node-RED.*
 
@@ -155,27 +154,14 @@ O Node-RED atua como o orquestrador central do sistema, processando dados, geren
 ```
 [Telegram Bot] → [Validação Usuário] → [Contabilização] → [Decisão] → [MQTT Out]
                         ↓                                               ↓
-                   [Database]                                    [Ativar/Desativar AC]
+                   [Database]                                    [Alterar temperatura]
 ```
 
 - Recebe votos dos usuários via Telegram
 - Valida se o usuário está cadastrado e tem aula no momento
-- Contabiliza os votos (maioria simples)
+- Contabiliza os votos (realiza a média de todos os votos)
 - Toma decisão e envia comando via MQTT
 - Registra a votação no banco de dados
-
-#### 3. Fluxo de Agendamento
-
-```
-[Cron/Scheduler] → [Consulta DB] → [Verificar Horário] → [Ação Automática]
-                                           ↓
-                                    [Telegram Notify]
-```
-
-- Verifica automaticamente os horários de aula
-- Envia notificações aos alunos no início das aulas
-- Ativa/desativa o sistema conforme agenda
-- Realiza manutenções preventivas programadas
 
 ### Funcionalidades Implementadas
 
@@ -185,33 +171,6 @@ O Node-RED atua como o orquestrador central do sistema, processando dados, geren
 - **Lógica de Votação**: Algoritmo de contagem e decisão democrática
 - **Notificações**: Alertas automáticos para usuários e administradores
 - **Tratamento de Erros**: Logs e recuperação de falhas
-
-### Exemplo de Função JavaScript
-
-```javascript
-// Processamento de votação
-let votosLigar = flow.get('votos_ligar') || 0;
-let votosDesligar = flow.get('votos_desligar') || 0;
-
-if (msg.payload.voto === 'ligar') {
-    votosLigar++;
-    flow.set('votos_ligar', votosLigar);
-} else {
-    votosDesligar++;
-    flow.set('votos_desligar', votosDesligar);
-}
-
-if (votosLigar + votosDesligar >= msg.payload.totalAlunos / 2) {
-    msg.payload = {
-        comando: votosLigar > votosDesligar ? 'ON' : 'OFF',
-        votos_ligar: votosLigar,
-        votos_desligar: votosDesligar
-    };
-    flow.set('votos_ligar', 0);
-    flow.set('votos_desligar', 0);
-    return msg;
-}
-```
 
 ### Importação dos Fluxos
 
@@ -323,7 +282,7 @@ CREATE TABLE salas_temperatura (
 
 ### Diagrama Esquemático
 
-![Esquemático do Circuito](images/schematic.png)
+![Esquemático do Circuito](docs/images/schematic.png)
 
 *Esquemático desenvolvido no EasyEDA mostrando as conexões do ESP32 com os sensores e módulos.*
 
@@ -344,15 +303,13 @@ CREATE TABLE salas_temperatura (
 
 ### Vista Frontal da Placa
 
-![PCB - Frente](images/pcb-front.png)
-![PCB - Frente 3D](images/pcb-front-3D.png)
+![PCB - Frente](docs/images/pcb-front.png)
 
 *Camada superior da placa com componentes SMD e through-hole.*
 
 ### Vista Posterior da Placa
 
-![PCB - Verso](images/pcb-back.png)
-![PCB - Verso 3D](images/pcb-back-3D.png)
+![PCB - Verso](docs/images/pcb-back.png)
 
 *Camada inferior mostrando as trilhas e plano de terra.*
 
@@ -362,7 +319,7 @@ CREATE TABLE salas_temperatura (
 
 ### Dashboard Principal - Monitoramento em Tempo Real
 
-![Dashboard Grafana - Overview](images/dashboard-overview.png)
+![Dashboard Grafana - Overview](docs/images/dashboard-overview.png)
 
 *Visão geral com métricas de temperatura e qualidade do ar em tempo real.*
 
@@ -447,14 +404,6 @@ CREATE TABLE salas_temperatura (
 
 ---
 
-## 🔄 Atualizações Futuras
-
-- [ ] Integração com assistentes de voz (Alexa, Google Assistant)
-- [ ] Aplicativo mobile dedicado
-- [ ] Suporte a múltiplas salas simultaneamente
-- [ ] Machine Learning para predição de padrões de uso
-- [ ] API REST para integrações externas
-
----
-
 **Desenvolvido com ❤️ para tornar ambientes compartilhados mais confortáveis e eficientes.**
+README.md
+Displaying README.md.
