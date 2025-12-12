@@ -345,12 +345,14 @@ CREATE TABLE salas_temperatura (
 ### Vista Frontal da Placa
 
 ![PCB - Frente](docs/images/pcb-front.png)
+![PCB - Frente 3D](docs/images/pcb-front-3D.png)
 
 *Camada superior da placa com componentes SMD e through-hole.*
 
 ### Vista Posterior da Placa
 
 ![PCB - Verso](docs/images/pcb-back.png)
+![PCB - Verso 3D](docs/images/pcb-back-3D.png)
 
 *Camada inferior mostrando as trilhas e plano de terra.*
 
