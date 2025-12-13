@@ -340,6 +340,164 @@ CREATE TABLE salas_temperatura (
 
 ---
 
+## 🌐 Servidor Web Flask
+
+O servidor Flask fornece uma interface web completa para gerenciamento administrativo do sistema, permitindo o cadastro e manutenção de todos os dados necessários para o funcionamento do totem.
+
+### Funcionalidades Principais
+
+#### Gestão de Alunos
+- **Cadastro**: Adicionar novos alunos com matrícula, nome, data de nascimento e gênero
+- **Edição**: Atualizar informações dos alunos cadastrados
+- **Exclusão**: Remover alunos do sistema
+- **Listagem**: Visualizar todos os alunos registrados
+- **Vinculação**: Associar alunos às suas respectivas turmas e aulas
+
+#### Gestão de Aulas
+- **Criação**: Cadastrar novas aulas com código e nome
+- **Configuração de Horários**: Definir cada turma, com sua sala e dia
+- **Edição**: Modificar informações das aulas existentes
+- **Exclusão**: Remover aulas do sistema
+- **Visualização**: Listar todas as aulas cadastradas
+
+#### Gestão de Salas
+- **Cadastro**: Adicionar salas com código e localização
+- **Edição**: Atualizar informações das salas
+- **Exclusão**: Remover salas do banco de dados
+- **Associação**: Vincular salas aos aparelhos de ar condicionado
+
+#### Gestão de Aparelhos
+- **Registro**: Cadastrar novos aparelhos com código e sala
+- **Atualização**: Modificar informações dos aparelhos
+- **Monitoramento**: Visualizar status e qualidade dos dispositivos
+- **Exclusão**: Remover aparelhos do sistema
+
+### Arquitetura do Servidor
+
+```python
+# Conexão com PostgreSQL
+conn = psycopg.connect(
+    dbname = "projeto_b", 
+    user = os.getenv("DB_LOGIN"), 
+    host = os.getenv("DB_ADDRESS"),
+    password = os.getenv("DB_PASSWORD"),
+    port = os.getenv("DB_PORT")
+)
+```
+
+### Principais Rotas da API
+
+| Rota | Método | Descrição |
+|------|--------|-----------|
+| `/` | GET | Página inicial do sistema |
+| `/alunos` | GET | Interface de gestão de alunos |
+| `/alunos/add` | GET/POST | Adicionar novo aluno |
+| `/alunos/edit2` | GET/POST | Editar dados do aluno |
+| `/alunos/delete` | POST | Remover aluno |
+| `/alunos/get` | GET | Listar todos os alunos |
+| `/alunos/turmas/edit2` | GET/POST | Vincular aluno a turmas |
+| `/aulas` | GET | Interface de gestão de aulas |
+| `/aulas/add` | GET/POST | Adicionar nova aula |
+| `/aulas/edit2` | GET/POST | Editar dados da aula |
+| `/aulas/edit` | GET/POST | Cadastrar uma turma |
+| `/aulas/delete` | POST | Remover aula |
+| `/aulas/get` | GET | Listar todas as aulas |
+| `/aulas/get2` | GET | Listar todas as turmas |
+| `/turmas/edit` | GET/POST | Editar dados da turma |
+| `/salas` | GET | Interface de gestão de salas |
+| `/salas/add` | GET/POST | Adicionar nova sala |
+| `/salas/edit2` | GET/POST | Editar dados da sala |
+| `/salas/delete` | POST | Remover sala |
+| `/salas/get` | GET | Listar todas as salas |
+| `/aparelhos` | GET | Interface de gestão de aparelhos |
+| `/aparelhos/add` | GET/POST | Adicionar novo aparelho |
+| `/aparelhos/edit2` | GET/POST | Editar dados do aparelho |
+| `/aparelhos/delete` | POST | Remover aparelho |
+| `/aparelhos/get` | GET | Listar todas os aparelhos |
+
+### Tecnologias Utilizadas
+
+- **Framework**: Flask 3.1.2
+- **Database Driver**: psycopg (PostgreSQL adapter)
+- **Flash Messages**: Sistema de feedback para operações CRUD
+
+### Sistema de Templates
+
+O servidor utiliza templates HTML, localizados em `python/templates/`:
+
+```
+templates/
+├── home_page.html           # Página inicial
+├── alunos_page.html         # Dashboard de alunos
+├── alunos_add.html          # Formulário de cadastro
+├── alunos_edit2.html        # Formulário de edição
+├── alunos_edit.html         # Formulário de edição
+├── alunos_get.html          # Listagem de alunos
+├── alunos_turmas_edit2.html # Vinculação aluno-turma
+├── aulas_page.html          # Dashboard de aulas
+├── aulas_add.html           # Cadastro de aulas
+├── aulas_edit2.html         # Edição de aulas
+├── aulas_get.html           # Listagem de aulas
+├── salas_page.html          # Dashboard de salas
+├── salas_add.html           # Cadastro de salas
+├── salas_edit2.html         # Edição de salas
+├── salas_get.html           # Listagem de salas
+├── aparelhos_page.html      # Dashboard de aparelhos
+├── aparelhos_add.html       # Cadastro de aparelhos
+├── aparelhos_edit2.html     # Edição de aparelhos
+└── aparelhos_get.html       # Listagem de aparelhos
+```
+
+### Configuração e Execução
+
+#### Variáveis de Ambiente (.env)
+
+```env
+DB_LOGIN=seu_usuario
+DB_ADDRESS=seu_servidor
+DB_PASSWORD=sua_senha
+DB_PORT=sua_porta
+```
+
+#### Instalação de Dependências
+
+```bash
+cd python
+pip install -r requirements.txt
+```
+
+**Nota**: O driver `psycopg` requer um compilador C instalado no sistema. Testado com sucesso em Linux e Windows.
+
+#### Executar o Servidor
+
+```bash
+python main.py
+```
+
+### Tratamento de Erros
+
+O sistema implementa tratamento de exceções para operações de banco de dados, exibindo mensagens amigáveis através do sistema de flash messages:
+
+```python
+try:
+    cur.execute('DELETE FROM alunos WHERE matricula = %s;', (matricula,))
+    conn.commit()
+    flash('Aluno removido com sucesso', 'success')
+except Exception as e:
+    conn.rollback()
+    flash('Erro ao remover aluno', 'error')
+```
+
+### Integração com o Sistema
+
+O servidor Flask se integra ao ecossistema do projeto:
+
+- **Banco de Dados**: Lê e escreve diretamente no PostgreSQL
+- **Node-RED**: O Node-RED consulta o banco para validar usuários em votações
+- **Telegram Bot**: Utiliza o `id_chat` cadastrado para identificar usuários
+- **Grafana**: Os dados cadastrados contextualizam as visualizações nos dashboards
+
+---
 ## 🎥 Demonstração em Vídeo
 
 <div align="center">
@@ -380,7 +538,7 @@ CREATE TABLE salas_temperatura (
 3. **Servidor Flask**: 
    ```bash
    cd python
-   pip install -r requirements.txt # psycopg necessita de um compilador C instalado (funcionou no linux e no windos do LET)
+   pip install -r requirements.txt
    python main.py
    ```
 4. **Grafana**: Configure as dashboards e data sources
