@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, flash
 from dotenv import load_dotenv
-import psycopg
+import psycopg2
 import os
 
 load_dotenv()
@@ -8,8 +8,8 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = b'a secret key'
 
-conn = psycopg.connect(
-    dbname = "projeto_b", 
+conn = psycopg2.connect(
+    database = "projeto_b", 
     user = os.getenv("DB_LOGIN"), 
     host= os.getenv("DB_ADDRESS"),
     password = os.getenv("DB_PASSWORD"),
@@ -168,7 +168,7 @@ def alunos_turmas_edit2():
     cur = conn.cursor()
     # Update form
     print(request.form)
-    if 'aula-option' in request.form and 'turma-option' in request.form and 'orig_aula' in request.form:
+    if 'aula-option' in request.form and 'turma-option' in request.form and 'orig_aula' in request.form and request.method == 'POST':
         matricula = request.form['matricula']
         orig_aula = request.form['orig_aula']
         orig_turma = request.form['orig_turma']
@@ -195,7 +195,7 @@ def alunos_turmas_edit2():
     cur.execute('SELECT * FROM arcondicionado_alunos_aulas WHERE matricula = %s AND aula = %s AND turma = %s;', (matricula, aula, turma))
     rel = cur.fetchone()
 
-    cur.execute('SELECT * FROM arcondicionado_aulas_horas;')
+    cur.execute('SELECT aula, turma, dia FROM arcondicionado_aulas_horas;')
     aulas_data = cur.fetchall()
 
     conn.commit()
