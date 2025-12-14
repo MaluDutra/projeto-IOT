@@ -112,37 +112,24 @@ O Node-RED atua como o orquestrador central do sistema, processando dados, geren
 
 ### Fluxos Principais
 
-![Node-RED Flows](images/nodered-flows.png)
+#### 1. Fluxo para controle do BOT do Telegram
+![Node-RED Flows](images/nodered-flows2.png)
 
-*Visualização dos fluxos principais do Node-RED.*
+- Recebe mensagem do Telegram
+- Realiza verificações se o usuário está logado (se a matrícula no Banco de Dados tem um chat_id)
+- Permite que o usuário cadastre seu chat_id
+- Permite que o aluno verifique a temperatura atual da sala em que está
+- Permite que o aluno desvincule o chat_id de sua matrícula (para mudar de dispositivo)
+- Permite que o aluno inicie uma votação
+- Após iniciada a votação, permite que todos os outros alunos da mesma sala votem na temperatura desejada
+- Realiza uma média de todas as temperatura votadas e envia a nova temperatura para o ar da sala
 
-#### 1. Fluxo de Processamento de Sensores
-
-```
-[MQTT In] → [Validação] → [Transformação] → [Database] → [Grafana]
-                                         ↓
-                                   [Alertas]
-```
+#### 2. Fluxo para o envio de dados dos sensores para o Banco de Dados
+![Node-RED Flows](images/nodered-flows1.png)
 
 - Recebe dados dos sensores via MQTT
 - Valida e formata os dados
-- Armazena no banco de dados PostgreSQL
-- Envia para o Grafana
-- Gera alertas quando valores críticos são detectados
-
-#### 2. Fluxo de Votação do Telegram
-
-```
-[Telegram Bot] → [Validação Usuário] → [Contabilização] → [Decisão] → [MQTT Out]
-                        ↓                                               ↓
-                   [Database]                                    [Alterar temperatura]
-```
-
-- Recebe votos dos usuários via Telegram
-- Valida se o usuário está cadastrado e tem aula no momento
-- Contabiliza os votos (realiza a média de todos os votos)
-- Toma decisão e envia comando via MQTT
-- Registra a votação no banco de dados
+- Armazena no banco de dados PostgreSQL (que posteriormente são utilizados pelo Grafana)
 
 ### Funcionalidades Implementadas
 
