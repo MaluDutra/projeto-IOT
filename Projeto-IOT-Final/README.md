@@ -501,16 +501,7 @@ O servidor Flask se integra ao ecossistema do projeto:
 ## 🎥 Demonstração em Vídeo
 
 <div align="center">
-  <iframe 
-    width="800" 
-    height="450" 
-    src="https://www.youtube.com/embed/Syz3W9gTWlo?si=bdf79xZYuxsVmA0S" 
-    title="Demonstração do Projeto Totem de Ar Condicionado Inteligente" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    referrerpolicy="strict-origin-when-cross-origin" 
-    allowfullscreen>
-  </iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/Syz3W9gTWlo?si=2XoOfkBowuBLGoEh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 
 *Vídeo demonstrando o funcionamento completo do sistema, desde a votação no Telegram até a ativação do ar condicionado e visualização no Grafana.*
