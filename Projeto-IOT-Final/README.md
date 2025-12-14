@@ -170,7 +170,7 @@ O PostgreSQL é utilizado para persistir todos os dados do sistema, desde cadast
 
 ### Diagrama Entidade-Relacionamento
 
-![Diagrama ER](/images/database-er.png)
+![Diagrama ER](images/database-er.png)
 
 *Modelo de dados do sistema.*
 
@@ -502,7 +502,7 @@ O servidor Flask se integra ao ecossistema do projeto:
 
 <div align="center">
   <iframe width="800" height="450" 
-    src="https://www.youtube.com/embed/VIDEO_ID_AQUI" 
+    src="https://www.youtube.com/embed/Syz3W9gTWlo" 
     title="Demonstração do Projeto Totem de Ar Condicionado Inteligente" 
     frameborder="0" 
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
