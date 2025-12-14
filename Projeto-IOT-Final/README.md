@@ -501,11 +501,14 @@ O servidor Flask se integra ao ecossistema do projeto:
 ## 🎥 Demonstração em Vídeo
 
 <div align="center">
-  <iframe width="800" height="450" 
+  <iframe 
+    width="800" 
+    height="450" 
     src="https://www.youtube.com/embed/Syz3W9gTWlo?si=bdf79xZYuxsVmA0S" 
     title="Demonstração do Projeto Totem de Ar Condicionado Inteligente" 
     frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
     allowfullscreen>
   </iframe>
 </div>
